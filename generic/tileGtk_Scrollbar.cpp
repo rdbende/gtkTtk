@@ -69,7 +69,7 @@ static void ScrollbarTroughElementDraw(
     TILEGTK_WIDGET_SET_FOCUS(widget);
     TileGtk_gtk_widget_style_get(widget, "trough-side-details",
                                  &trough_side_details, NULL);
-    // TILEGTK_DEFAULT_BACKGROUND;
+    TILEGTK_DEFAULT_BACKGROUND;
     // TileGtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
     if (trough_side_details) {
       int trough_change_pos_x = b.width, trough_change_pos_y = b.height;
@@ -147,7 +147,10 @@ static void ScrollbarThumbElementDraw(
     TILEGTK_WIDGET_SET_FOCUS(widget);
     adj = TileGtk_gtk_range_get_adjustment((GtkRange *) widget);
     TileGtk_gtk_adjustment_set_value(adj,TileGtk_ValueFromSlider(wc, tkwin, b));
-    TILEGTK_DEFAULT_BACKGROUND;
+    //    TILEGTK_DEFAULT_BACKGROUND;
+      TileGtk_gtk_paint_box(style, gdkDrawable, gtkState, GTK_SHADOW_IN, NULL, widget,
+          "trough", 0, 0, b.width, b.height);
+
     TileGtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
             TILEGTK_SECTION_SCROLLBAR|TILEGTK_SECTION_ALL);
     // TileGtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
