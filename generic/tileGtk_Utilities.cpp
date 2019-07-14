@@ -181,6 +181,7 @@ GtkWidget *TileGtk_GetNotebook(TileGtk_WidgetCache* wc) {
   TILEGTK_CHECK_WIDGET(gtkNotebook, TileGtk_gtk_notebook_new());
 }; /* TileGtk_GetNotebook */
 
+
 const char *TileGtk_GtkStateStr(GtkStateType gtkState) {
   switch ((GtkStateType) gtkState) {
     case GTK_STATE_NORMAL:      return "GTK_STATE_NORMAL";
@@ -463,13 +464,16 @@ unsigned int TileGtk_StateShadowTableLookup(TileGtk_StateTable *map,
         // else if (state & TTK_STATE_FOCUS)  gtkState  = GTK_STATE_ACTIVE;
       }
       if ((state & TTK_STATE_ACTIVE) &&
-             (!(state & TTK_STATE_PRESSED) || !(state & TTK_STATE_SELECTED))) {
+             (!(state & TTK_STATE_PRESSED) && !(state & TTK_STATE_SELECTED))) {
         gtkState = GTK_STATE_PRELIGHT;
       } else {
-        if (state & TTK_STATE_DISABLED || state & TTK_STATE_READONLY)
+        if (!(section & TILEGTK_SECTION_SCROLLBAR) &&
+	    state & TTK_STATE_DISABLED || state & TTK_STATE_READONLY)
           gtkState  = GTK_STATE_INSENSITIVE;
         else if (state & TTK_STATE_PRESSED) gtkState  = GTK_STATE_ACTIVE;
-      }
+        else if (state & TTK_STATE_DISABLED)
+          gtkState  = GTK_STATE_INSENSITIVE;
+	}
       map = NULL; /* Do not search the table */
     } else if (section & TILEGTK_SECTION_TROUGH) {
       if (state & TTK_STATE_PRESSED) {
