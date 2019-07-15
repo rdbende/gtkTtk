@@ -4,30 +4,17 @@
 # Tile widget set -- widget demo
 #
 package require Tk
+package require Ttk
 
 eval destroy [winfo children .]		;# in case script is re-sourced
 
 ### Load auxilliary scripts.
 #
 variable demodir [file dirname [info script]]
-lappend auto_path . $demodir
-if {[catch {package require Ttk}]} {
-  package require tile
-}
-ttk::setTheme tilegtk
-foreach {arg val} $argv {
-  switch -glob -- $arg {
-    -st* {ttk::theme::tilegtk::applyStyle $val}
-  }
-}
 
 source [file join $demodir iconlib.tcl]
 # source [file join $demodir toolbutton.tcl]
 source [file join $demodir repeater.tcl]
-
-# This forces an update of the available packages list.
-# It's required for package names to find the themes in demos/themes/*.tcl
-eval [package unknown] Tcl [package provide Tcl]
 
 ### Global options and bindings.
 #
