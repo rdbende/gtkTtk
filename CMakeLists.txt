@@ -154,22 +154,14 @@ ENDIF ( USE_GNOME )
 ##  Locate GTK...
 ## ===========================================================================
 MESSAGE ( STATUS "Searching for GTK2..." )
-FIND_PACKAGE ( GTK2 REQUIRED )
-_GTK2_FIND_LIBRARY ( GTK2_GMODULE_LIBRARY gmodule false true)
-# INCLUDE ( cmake/Modules/FindGTK2.cmake )
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(GTK "gtk+-2.0")
+if (GTK_FOUND)
+  LINK_LIBRARIES( ${GTK_LIBRARIES})
+  add_definitions(${GTK_CFLAGS} ${GTK_CFLAGS_OTHER})
 
-IF ( GTK2_FOUND )
-  MESSAGE ( STATUS "  GTK 2.x Found!" )
-  INCLUDE_DIRECTORIES ( ${GTK2_INCLUDE_DIRS} )
-ENDIF ( GTK2_FOUND )
-MESSAGE ( STATUS "  GTK2_INCLUDE_DIRS:" )
-FOREACH ( path ${GTK2_INCLUDE_DIRS} )
-  MESSAGE ( STATUS "   + ${path}" )
-ENDFOREACH ( path )
-MESSAGE ( STATUS "  GTK2_LIBRARIES:" )
-FOREACH ( path ${GTK2_LIBRARIES} )
-  MESSAGE ( STATUS "   + ${path}" )
-ENDFOREACH ( path )
+MESSAGE ( STATUS "  GTK 2.x Found!" )
+endif()
 
 ## ===========================================================================
 ##  Target: tileGtk_Symbols.[h|cpp]
