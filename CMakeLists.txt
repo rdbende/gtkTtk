@@ -126,6 +126,7 @@ ADD_DEFINITIONS     ( -DPACKAGE_NAME="${PKG_NAME}" )
 ADD_DEFINITIONS     ( -DPACKAGE_VERSION="${PKG_VERSION}" )
 INCLUDE_DIRECTORIES ( ${TCL_INCLUDE_PATH} )
 INCLUDE_DIRECTORIES ( ${TK_INCLUDE_PATH} )
+INCLUDE_DIRECTORIES ( ${TK_INCLUDE_PATH}/tk-private/generic/ttk )
 INCLUDE_DIRECTORIES ( ${PROJECT_SOURCE_DIR}/generic )
 
 ## ===========================================================================
