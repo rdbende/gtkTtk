@@ -10,7 +10,7 @@ namespace eval ttk::theme::tilegtk {
     switch -glob [::platform::generic] {
       *_64 {
         set paths {
-          /usr/lib64 /opt/gnome/lib /usr/openwin/lib
+          /usr/lib64 /usr/lib /opt/gnome/lib /usr/openwin/lib /usr/lib/x86_64-linux-gnu
         }
       }
       default {
