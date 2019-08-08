@@ -50,33 +50,33 @@ namespace eval ttk::theme::tilegtk {
         }
       }
     }
-    set loaded 0
-    foreach lib $libs {
-      puts "* Locating: $lib"
-      set found 0
-      foreach path $paths {
-        if {![file isdirectory $path]} {continue}
-        foreach name $names {
-          foreach prefix $prefixes {
-            foreach file [glob -nocomplain -dir $path -type f \
-                               ${prefix}${lib}${name}$ext] {
-              if {[file exists $file]} {
-                puts "    ++ $file"
-                if {[catch {initialiseLibrary $lib $file} symbol]} {
-                  puts "      => ERROR: $symbol"
-                } else {
-                  incr loaded; set found 1
-                  break
-                }
-              };# if {[file exists $file]}
-            };# foreach file ...
-            if {$found} {break}
-          };# foreach prefix $prefixes
-          if {$found} {break}
-        };# foreach name $names
+      set loaded 0
+      foreach lib $libs {
+	  puts "* Locating: $lib"
+	  set found 0
+	  foreach name $names {
+	      foreach prefix $prefixes {
+		  foreach path $paths {
+		      if {$found} {break}
+		      if {![file isdirectory $path]} {continue}
+		      foreach file [glob -nocomplain -dir $path -type f \
+					${prefix}${lib}${name}$ext] {
+			  if {$found} {break}
+			  if {[file exists $file]} {
+			      puts "    ++ $file"
+			      if {[catch {initialiseLibrary $lib $file} symbol]} {
+				  puts "      => ERROR: $symbol"
+			      } else {
+				  incr loaded; set found 1
+				  break
+			      }
+			  };# if {[file exists $file]}
+		      };# foreach file ...
+		  };# foreach prefix $prefixes
+	      };# foreach name $names
+	  }
       }
-    }
-    if {$loaded != [llength $libs]} {
+      if {$loaded != [llength $libs]} {
       error "Not all symbols loaded!"
     }
   };# loadLibraries
