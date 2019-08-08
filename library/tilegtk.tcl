@@ -65,7 +65,7 @@ namespace eval ttk::theme::tilegtk {
 			  if {[file exists $file]} {
 			      puts "    ++ $file"
 			      if {[catch {initialiseLibrary $lib $file} symbol]} {
-				  puts "      => ERROR: $symbol"
+				  puts " => ERROR while initialising library $lib from $file : $symbol"
 			      } else {
 				  incr loaded; set found 1
 				  break
