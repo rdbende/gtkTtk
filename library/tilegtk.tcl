@@ -52,7 +52,6 @@ namespace eval ttk::theme::tilegtk {
     }
       set loaded 0
       foreach lib $libs {
-	  puts "* Locating: $lib"
 	  set found 0
 	  foreach name $names {
 	      foreach prefix $prefixes {
@@ -63,7 +62,6 @@ namespace eval ttk::theme::tilegtk {
 					${prefix}${lib}${name}$ext] {
 			  if {$found} {break}
 			  if {[file exists $file]} {
-			      puts "    ++ $file"
 			      if {[catch {initialiseLibrary $lib $file} symbol]} {
 				  puts " => ERROR while initialising library $lib from $file : $symbol"
 			      } else {
