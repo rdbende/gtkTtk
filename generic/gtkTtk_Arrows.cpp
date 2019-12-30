@@ -1,8 +1,8 @@
 /*
- *  tileGtk_Arrows.cpp
+ *  gtkTtk_Arrows.cpp
  * -------------------
  *
- * This file is part of the Tile-Gtk package, a Tk/Tile based theme that uses
+ * This file is part of the gtkTtk package, a Tk/Tile based theme that uses
  * Gtk/GNOME for drawing.
  *
  * Copyright (C) 2004-2008 by:
@@ -13,9 +13,9 @@
  * Aghia Paraskevi, 153 10, Athens, Greece.
  */
 
-#include "tileGtk_Utilities.h"
-#include "tileGtk_TkHeaders.h"
-#include "tileGtk_WidgetDefaults.h"
+#include "gtkTtk_Utilities.h"
+#include "gtkTtk_TkHeaders.h"
+#include "gtkTtk_WidgetDefaults.h"
 
 #if 0
 /*
@@ -56,7 +56,7 @@ ArrowElementGeometry(
     void *clientData, void *elementRecord,
     Tk_Window tkwin, int *widthPtr, int *heightPtr, Ttk_Padding *paddingPtr)
 {
-    if (!TileGtk_GtkInitialised()) NO_GTK_STYLE_ENGINE;
+    if (!GtkTtk_GtkInitialised()) NO_GTK_STYLE_ENGINE;
     ArrowElement *arrow = (ArrowElement *) elementRecord;
     int size = 12;
 
@@ -68,10 +68,10 @@ static void
 ArrowElementDraw(void *clientData, void *elementRecord,
     Tk_Window tkwin, Drawable d, Ttk_Box b, unsigned int state)
 {
-    if (!TileGtk_GtkInitialised()) NO_GTK_STYLE_ENGINE;
+    if (!GtkTtk_GtkInitialised()) NO_GTK_STYLE_ENGINE;
     //ArrowElement *arrow = (ArrowElement *) elementRecord;
     int direction = *(int *)clientData;
-    QStyle::SFlags sflags = TileGtk_StateTableLookup(arrow_statemap ,state);
+    QStyle::SFlags sflags = GtkTtk_StateTableLookup(arrow_statemap ,state);
     QStyle::PrimitiveElement element = QStyle::PE_ArrowUp;
     //if (state == GTK_STATE_INSENSITIVE)
     //        sflags |= QStyle::Style_Off;
@@ -85,22 +85,22 @@ ArrowElementDraw(void *clientData, void *elementRecord,
         case ARROW_LEFT:  element = QStyle::PE_ArrowLeft;  break;
         case ARROW_RIGHT: element = QStyle::PE_ArrowRight; break;
     }
-    Tcl_MutexLock(&tilegtkMutex);
+    Tcl_MutexLock(&gtkTtkMutex);
     QPixmap     pixmap(b.width, b.height);
     QPainter    painter(&pixmap);
-    if ((TileGtk_QPixmap_BackgroundTile) &&
-        (!TileGtk_QPixmap_BackgroundTile->isNull())) {
+    if ((GtkTtk_QPixmap_BackgroundTile) &&
+        (!GtkTtk_QPixmap_BackgroundTile->isNull())) {
        painter.fillRect(0, 0, b.width, b.height, QBrush(QColor(255,255,255),
-               *TileGtk_QPixmap_BackgroundTile));
+               *GtkTtk_QPixmap_BackgroundTile));
     } else {
        painter.fillRect(0, 0, b.width, b.height,
                qApp->palette().active().brush(QColorGroup::Background));
     }    
     qApp->style().drawPrimitive(element, &painter,
           QRect(0, 0, b.width, b.height), qApp->palette().active(), sflags);
-    TileGtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
+    GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
                                     0, 0, b.width, b.height, b.x, b.y);
-    Tcl_MutexUnlock(&tilegtkMutex);
+    Tcl_MutexUnlock(&gtkTtkMutex);
 }
 
 static Ttk_ElementSpec ArrowElementSpec =
@@ -117,7 +117,7 @@ static Ttk_ElementSpec ArrowElementSpec =
  */
 
 
-int TileGtk_Init_Arrows(Tcl_Interp *interp, Ttk_Theme themePtr)
+int GtkTtk_Init_Arrows(Tcl_Interp *interp, Ttk_Theme themePtr)
 {
     /*
      * Register elements:
@@ -138,5 +138,5 @@ int TileGtk_Init_Arrows(Tcl_Interp *interp, Ttk_Theme themePtr)
      */
 
     return TCL_OK;
-}; /* TileGtk_Init_Arrows */
+};
 #endif

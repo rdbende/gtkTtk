@@ -1,8 +1,8 @@
 /*
- *  tileGtk_Progress.cpp
+ *  gtkTtk_Progress.cpp
  * ---------------------
  *
- * This file is part of the Tile-Gtk package, a Tk/Tile based theme that uses
+ * This file is part of the gtkTtk package, a Tk/Tile based theme that uses
  * Gtk/GNOME for drawing.
  *
  * Copyright (C) 2004-2008 by:
@@ -13,9 +13,9 @@
  * Aghia Paraskevi, 153 10, Athens, Greece.
  */
 
-#include "tileGtk_Utilities.h"
-#include "tileGtk_TkHeaders.h"
-#include "tileGtk_WidgetDefaults.h"
+#include "gtkTtk_Utilities.h"
+#include "gtkTtk_TkHeaders.h"
+#include "gtkTtk_WidgetDefaults.h"
 
 #if 0
 /*
@@ -44,24 +44,24 @@ static void ProgressTroughElementDraw(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     Drawable d, Ttk_Box b, unsigned state)
 {
-    TILEGTK_GTK_DRAWABLE_DEFINITIONS;
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
-    /* TILEGTK_SETUP_GTK_DRAWABLE; */
-    GtkWidget *widget = TileGtk_GetProgressBar(wc);
-    TILEGTK_ENSURE_WIDGET_OK;
-    TILEGTK_STYLE_FROM_WIDGET;
-    TILEGTK_DRAWABLE_FROM_WIDGET;
-    TileGtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
-            TILEGTK_SECTION_TROUGH|TILEGTK_SECTION_ALL);
-    // TILEGTK_SETUP_WIDGET_SIZE(b.width, b.height);
-    TILEGTK_WIDGET_SET_FOCUS(widget);
-    // TILEGTK_DEFAULT_BACKGROUND;
-    // TileGtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
-    TileGtk_gtk_paint_box(style, gdkDrawable, gtkState, GTK_SHADOW_IN, NULL, widget,
+    GTKTTK_GTK_DRAWABLE_DEFINITIONS;
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    /* GTKTTK_SETUP_GTK_DRAWABLE; */
+    GtkWidget *widget = GtkTtk_GetProgressBar(wc);
+    GTKTTK_ENSURE_WIDGET_OK;
+    GTKTTK_STYLE_FROM_WIDGET;
+    GTKTTK_DRAWABLE_FROM_WIDGET;
+    GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
+            GTKTTK_SECTION_TROUGH|GTKTTK_SECTION_ALL);
+    // GTKTTK_SETUP_WIDGET_SIZE(b.width, b.height);
+    GTKTTK_WIDGET_SET_FOCUS(widget);
+    // GTKTTK_DEFAULT_BACKGROUND;
+    // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
+    GtkTtk_gtk_paint_box(style, gdkDrawable, gtkState, GTK_SHADOW_IN, NULL, widget,
         "trough", 0, 0, b.width, b.height);
-    TileGtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
+    GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
                    0, 0, b.width, b.height, b.x, b.y);
-    TILEGTK_CLEANUP_GTK_DRAWABLE;
+    GTKTTK_CLEANUP_GTK_DRAWABLE;
 }
 
 static Ttk_ElementSpec ProgressTroughElementSpec = {
@@ -111,13 +111,13 @@ static void ProgressBarElementDraw(
     //int width = Tk_Width(tkwin), height = Tk_Height(tkwin);
     //bool determinate = true;
     //double value, maximum;
-    TILEGTK_GTK_DRAWABLE_DEFINITIONS;
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
-    /* TILEGTK_SETUP_GTK_DRAWABLE; */
-    GtkWidget *widget = TileGtk_GetProgressBar(wc);
-    TILEGTK_ENSURE_WIDGET_OK;
-    TILEGTK_STYLE_FROM_WIDGET;
-    TILEGTK_DRAWABLE_FROM_WIDGET;
+    GTKTTK_GTK_DRAWABLE_DEFINITIONS;
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    /* GTKTTK_SETUP_GTK_DRAWABLE; */
+    GtkWidget *widget = GtkTtk_GetProgressBar(wc);
+    GTKTTK_ENSURE_WIDGET_OK;
+    GTKTTK_STYLE_FROM_WIDGET;
+    GTKTTK_DRAWABLE_FROM_WIDGET;
     // Tcl_GetDoubleFromObj(NULL, pbar->valueObj, &value);
     // Tcl_GetDoubleFromObj(NULL, pbar->maximumObj, &maximum);
     // if (strncmp(Tcl_GetString(pbar->modeObj), "determinate", 10) != 0) {
@@ -125,27 +125,27 @@ static void ProgressBarElementDraw(
     // }
 
     // if (determinate) {
-    //   TileGtk_gtk_progress_bar_set_bar_style((GtkProgressBar *) widget,
+    //   GtkTtk_gtk_progress_bar_set_bar_style((GtkProgressBar *) widget,
     //                                   GTK_PROGRESS_DISCRETE);
-    //   TileGtk_gtk_progress_bar_set_fraction((GtkProgressBar *) widget,
-    //                      TileGtk_ValueFromSlider(wc, tkwin, b));
+    //   GtkTtk_gtk_progress_bar_set_fraction((GtkProgressBar *) widget,
+    //                      GtkTtk_ValueFromSlider(wc, tkwin, b));
     // } else {
-    //   TileGtk_gtk_progress_bar_set_bar_style((GtkProgressBar *) widget,
+    //   GtkTtk_gtk_progress_bar_set_bar_style((GtkProgressBar *) widget,
     //                                   GTK_PROGRESS_CONTINUOUS);
-    //   TileGtk_gtk_progress_bar_set_fraction((GtkProgressBar *) widget,
-    //                      TileGtk_ValueFromSlider(wc, tkwin, b));
+    //   GtkTtk_gtk_progress_bar_set_fraction((GtkProgressBar *) widget,
+    //                      GtkTtk_ValueFromSlider(wc, tkwin, b));
     // }
 
-    TILEGTK_WIDGET_SET_FOCUS(widget);
-    // TILEGTK_DEFAULT_BACKGROUND;
-    TileGtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
-            TILEGTK_SECTION_SCROLLBAR|TILEGTK_SECTION_ALL);
-    // TileGtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
-    TileGtk_gtk_paint_box(style, gdkDrawable, gtkState, gtkShadow, NULL, widget,
+    GTKTTK_WIDGET_SET_FOCUS(widget);
+    // GTKTTK_DEFAULT_BACKGROUND;
+    GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
+            GTKTTK_SECTION_SCROLLBAR|GTKTTK_SECTION_ALL);
+    // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
+    GtkTtk_gtk_paint_box(style, gdkDrawable, gtkState, gtkShadow, NULL, widget,
         "bar", 0, 0, b.width, b.height);
-    TileGtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
+    GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
                    0, 0, b.width, b.height, b.x, b.y);
-    TILEGTK_CLEANUP_GTK_DRAWABLE;
+    GTKTTK_CLEANUP_GTK_DRAWABLE;
 }
 
 static Ttk_ElementSpec ProgressBarElementSpec = {
@@ -170,8 +170,8 @@ TTK_BEGIN_LAYOUT(HorizontalProgressBarLayout)
         TTK_NODE("Horizontal.Progressbar.pbar", TTK_PACK_LEFT|TTK_FILL_Y))
 TTK_END_LAYOUT
 
-int TileGtk_Init_Progress(Tcl_Interp *interp,
-                       TileGtk_WidgetCache **wc, Ttk_Theme themePtr)
+int GtkTtk_Init_Progress(Tcl_Interp *interp,
+                       GtkTtk_WidgetCache **wc, Ttk_Theme themePtr)
 {
     /*
      * Register elements:
@@ -195,4 +195,4 @@ int TileGtk_Init_Progress(Tcl_Interp *interp,
             "Vertical.TProgressbar", VerticalProgressBarLayout);
 
     return TCL_OK;
-}; /* TileGtk_Init_Progress */
+}; /* GtkTtk_Init_Progress */

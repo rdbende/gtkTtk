@@ -1,8 +1,8 @@
 /*
- *  tileGtk_Labelframe.cpp
+ *  gtkTtk_Labelframe.cpp
  * -----------------------
  *
- * This file is part of the Tile-Gtk package, a Tk/Tile based theme that uses
+ * This file is part of the gtkTtk package, a Tk/Tile based theme that uses
  * Gtk/GNOME for drawing.
  *
  * Copyright (C) 2004-2008 by:
@@ -13,9 +13,9 @@
  * Aghia Paraskevi, 153 10, Athens, Greece.
  */
 
-#include "tileGtk_Utilities.h"
-#include "tileGtk_TkHeaders.h"
-#include "tileGtk_WidgetDefaults.h"
+#include "gtkTtk_Utilities.h"
+#include "gtkTtk_TkHeaders.h"
+#include "gtkTtk_WidgetDefaults.h"
 
 #if 0
 /*
@@ -45,28 +45,28 @@ static void LabelframeBorderElementDraw(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     Drawable d, Ttk_Box b, unsigned state)
 {
-    TILEGTK_GTK_DRAWABLE_DEFINITIONS;
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
-    /* TILEGTK_SETUP_GTK_DRAWABLE; */
-    GtkWidget *widget = TileGtk_GetFrame(wc);
-    TILEGTK_ENSURE_WIDGET_OK;
-    TILEGTK_STYLE_FROM_WIDGET;
-    TILEGTK_DRAWABLE_FROM_WIDGET;
-    // TILEGTK_ATTACH_STYLE_TO_WIDGET;
-    // TILEGTK_SETUP_WIDGET_SIZE(b.width, b.height);
-    // TILEGTK_WIDGET_SET_FOCUS(widget);
-    TILEGTK_DEFAULT_BACKGROUND;
-    // TileGtk_gtk_paint_flat_box(style, gdkDrawable, gtkState, gtkShadow, NULL,
+    GTKTTK_GTK_DRAWABLE_DEFINITIONS;
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    /* GTKTTK_SETUP_GTK_DRAWABLE; */
+    GtkWidget *widget = GtkTtk_GetFrame(wc);
+    GTKTTK_ENSURE_WIDGET_OK;
+    GTKTTK_STYLE_FROM_WIDGET;
+    GTKTTK_DRAWABLE_FROM_WIDGET;
+    // GTKTTK_ATTACH_STYLE_TO_WIDGET;
+    // GTKTTK_SETUP_WIDGET_SIZE(b.width, b.height);
+    // GTKTTK_WIDGET_SET_FOCUS(widget);
+    GTKTTK_DEFAULT_BACKGROUND;
+    // GtkTtk_gtk_paint_flat_box(style, gdkDrawable, gtkState, gtkShadow, NULL,
     //                            widget, "frame", 0, 0, b.width, b.height);
-    TileGtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
+    GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
                    0, 0, b.width, b.height, 0, 0);
-    TileGtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
-            TILEGTK_SECTION_BUTTONS|TILEGTK_SECTION_ALL);
-    TileGtk_gtk_paint_shadow(style, gdkDrawable, gtkState, gtkShadow, NULL, widget,
+    GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
+            GTKTTK_SECTION_BUTTONS|GTKTTK_SECTION_ALL);
+    GtkTtk_gtk_paint_shadow(style, gdkDrawable, gtkState, gtkShadow, NULL, widget,
                      "frame", 0, 0, b.width, b.height);
-    TileGtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
+    GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
                    0, 0, b.width, b.height, b.x, b.y);
-    TILEGTK_CLEANUP_GTK_DRAWABLE;
+    GTKTTK_CLEANUP_GTK_DRAWABLE;
 }
 
 static Ttk_ElementSpec LabelframeBorderElementSpec = {
@@ -86,8 +86,8 @@ TTK_BEGIN_LAYOUT(LabelframeLayout)
     TTK_NODE("Labelframe.border", TTK_FILL_BOTH)
 TTK_END_LAYOUT
 
-int TileGtk_Init_Labelframe(Tcl_Interp *interp,
-                       TileGtk_WidgetCache **wc, Ttk_Theme themePtr)
+int GtkTtk_Init_Labelframe(Tcl_Interp *interp,
+                       GtkTtk_WidgetCache **wc, Ttk_Theme themePtr)
 {
     /*
      * Register elements:
@@ -101,4 +101,4 @@ int TileGtk_Init_Labelframe(Tcl_Interp *interp,
     Ttk_RegisterLayout(themePtr, "TLabelframe", LabelframeLayout);
 
     return TCL_OK;
-}; /* TileGtk_Init_Labelframe */
+}; /* GtkTtk_Init_Labelframe */

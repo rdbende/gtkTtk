@@ -3,7 +3,7 @@ CMAKE_MINIMUM_REQUIRED ( VERSION 2.8 )
 ## ===========================================================================
 ##  Project Information
 ## ===========================================================================
-PROJECT ( tilegtk )
+PROJECT ( gtkTtk )
 ## Package version information.
 SET ( PKG_NAME          ${PROJECT_NAME} )
 SET ( PKG_MAJOR_VERSION 0 )
@@ -12,7 +12,7 @@ SET ( PKG_BUILD_VERSION 0 )
 SET ( PKG_VERSION
      "${PKG_MAJOR_VERSION}.${PKG_MINOR_VERSION}" )
 SET ( PKG_NAME_VERSION  ${PKG_NAME}-${PKG_VERSION} )
-SET ( PKG_VENDOR        "Georgios Petasis" )
+SET ( PKG_VENDOR        "Géballin" )
 SET ( PKG_HOME_DIR      ${PROJECT_SOURCE_DIR} )
 
 SET ( LOAD_GTK_DYNAMICALLY ON )
@@ -26,29 +26,29 @@ IF ( VERBOSE )
 ENDIF ( VERBOSE )
 
 SET ( PKG_SOURCES 
-                  generic/tileGtk_TreeView.cpp
-                  generic/tileGtk_Separator.cpp
-                  generic/tileGtk_Arrows.cpp )
+                  generic/gtkTtk_TreeView.cpp
+                  generic/gtkTtk_Separator.cpp
+                  generic/gtkTtk_Arrows.cpp )
 
-SET ( PKG_SOURCES generic/tileGtk_Init.cpp
-                  generic/tileGtk_Symbols.cpp
-                  generic/tileGtk_GtkApp.cpp
-                  generic/tileGtk_Utilities.cpp
-                  generic/tileGtk_Background.cpp
-                  generic/tileGtk_Button.cpp
-                  generic/tileGtk_CheckButton.cpp
-                  generic/tileGtk_RadioButton.cpp
-                  generic/tileGtk_ToolButton.cpp
-                  generic/tileGtk_Labelframe.cpp
-                  generic/tileGtk_Entry.cpp
-                  generic/tileGtk_Menubutton.cpp
-                  generic/tileGtk_Scrollbar.cpp
-                  generic/tileGtk_Scale.cpp
-                  generic/tileGtk_Progress.cpp
-                  generic/tileGtk_SizeGrip.cpp
-                  generic/tileGtk_Paned.cpp
-                  generic/tileGtk_Notebook.cpp
-                  generic/tileGtk_Combobox.cpp
+SET ( PKG_SOURCES generic/gtkTtk_Init.cpp
+                  generic/gtkTtk_Symbols.cpp
+                  generic/gtkTtk_GtkApp.cpp
+                  generic/gtkTtk_Utilities.cpp
+                  generic/gtkTtk_Background.cpp
+                  generic/gtkTtk_Button.cpp
+                  generic/gtkTtk_CheckButton.cpp
+                  generic/gtkTtk_RadioButton.cpp
+                  generic/gtkTtk_ToolButton.cpp
+                  generic/gtkTtk_Labelframe.cpp
+                  generic/gtkTtk_Entry.cpp
+                  generic/gtkTtk_Menubutton.cpp
+                  generic/gtkTtk_Scrollbar.cpp
+                  generic/gtkTtk_Scale.cpp
+                  generic/gtkTtk_Progress.cpp
+                  generic/gtkTtk_SizeGrip.cpp
+                  generic/gtkTtk_Paned.cpp
+                  generic/gtkTtk_Notebook.cpp
+                  generic/gtkTtk_Combobox.cpp
 )
 
 MESSAGE ( STATUS "===========================================================" )
@@ -112,13 +112,13 @@ ENDIF ( WIN32 )
 
 IF ( LOAD_GTK_DYNAMICALLY )
   MESSAGE ( STATUS "GTK+ will be loaded dynamically!" )
-  ADD_DEFINITIONS   ( -DTILEGTK_LOAD_GTK_DYNAMICALLY )
+  ADD_DEFINITIONS   ( -DGTKTTK_LOAD_GTK_DYNAMICALLY )
 ENDIF ( LOAD_GTK_DYNAMICALLY )
 IF ( CMAKE_BUILD_TYPE STREQUAL Debug )
-  ADD_DEFINITIONS   ( -DTILEGTK_SYNCHRONIZE )
-  ADD_DEFINITIONS   ( -DTILEGTK_VERBOSE_XERROR_HANDLER )
+  ADD_DEFINITIONS   ( -DGTKTTK_SYNCHRONIZE )
+  ADD_DEFINITIONS   ( -DGTKTTK_VERBOSE_XERROR_HANDLER )
 ENDIF ( CMAKE_BUILD_TYPE STREQUAL Debug )
-ADD_DEFINITIONS     ( -DTILEGTK_INSTALL_XERROR_HANDLER )
+ADD_DEFINITIONS     ( -DGTKTTK_INSTALL_XERROR_HANDLER )
 ADD_DEFINITIONS     ( -DUSE_TCL_STUBS )
 ADD_DEFINITIONS     ( -DUSE_TK_STUBS )
 ADD_DEFINITIONS     ( -DUSE_TTK_STUBS )
@@ -137,7 +137,7 @@ IF ( USE_GNOME )
   INCLUDE ( cmake/Modules/FindGNOME2.cmake OPTIONAL )
   IF ( GNOME_FOUND )
       MESSAGE ( STATUS "  GNOME Found!" )
-      ADD_DEFINITIONS     ( -DTILEGTK_ENABLE_GNOME )
+      ADD_DEFINITIONS     ( -DGTKTTK_ENABLE_GNOME )
       INCLUDE_DIRECTORIES ( ${GNOME_INCLUDE_DIR} )
       LINK_LIBRARIES      ( ${GNOME_LIBRARIES} )
   ENDIF ( GNOME_FOUND )
@@ -165,25 +165,25 @@ MESSAGE ( STATUS "  GTK 2.x Found!" )
 endif()
 
 ## ===========================================================================
-##  Target: tileGtk_Symbols.[h|cpp]
+##  Target: gtkTtk_Symbols.[h|cpp]
 ## ===========================================================================
-ADD_CUSTOM_COMMAND ( OUTPUT ${PROJECT_SOURCE_DIR}/generic/tileGtk_Symbols.cpp
-                            ${PROJECT_SOURCE_DIR}/generic/tileGtk_Symbols.h
+ADD_CUSTOM_COMMAND ( OUTPUT ${PROJECT_SOURCE_DIR}/generic/gtkTtk_Symbols.cpp
+                            ${PROJECT_SOURCE_DIR}/generic/gtkTtk_Symbols.h
     DEPENDS library/GenarateSymbols.tcl
-            generic/tileGtk_Init.cpp
-            generic/tileGtk_GtkApp.cpp
-            generic/tileGtk_Utilities.h
-            generic/tileGtk_Utilities.cpp
+            generic/gtkTtk_Init.cpp
+            generic/gtkTtk_GtkApp.cpp
+            generic/gtkTtk_Utilities.h
+            generic/gtkTtk_Utilities.cpp
     COMMAND ${TCL_TCLSH} GenarateSymbols.tcl
     WORKING_DIRECTORY ${PROJECT_SOURCE_DIR}/library )
-SET_SOURCE_FILES_PROPERTIES ( ${PROJECT_SOURCE_DIR}/generic/tileGtk_Symbols.cpp
+SET_SOURCE_FILES_PROPERTIES ( ${PROJECT_SOURCE_DIR}/generic/gtkTtk_Symbols.cpp
                               PROPERTIES GENERATED true )
-SET_SOURCE_FILES_PROPERTIES ( ${PROJECT_SOURCE_DIR}/generic/tileGtk_Symbols.h
+SET_SOURCE_FILES_PROPERTIES ( ${PROJECT_SOURCE_DIR}/generic/gtkTtk_Symbols.h
                               PROPERTIES GENERATED true )
 
 SET ( PKG_TARGET_LIB_NAME ${PKG_NAME}${PKG_VERSION} )
 ## ===========================================================================
-##  Target: tilegtk shared library
+##  Target: gtkTtk shared library
 ## ===========================================================================
 MESSAGE ( STATUS "===========================================================" )
 MESSAGE ( STATUS "   ++++ Shared Library: ${PKG_TARGET_LIB_NAME} ++++" )
@@ -223,14 +223,14 @@ ELSE ( LOAD_GTK_DYNAMICALLY )
 ENDIF ( LOAD_GTK_DYNAMICALLY )
 
 FILE ( WRITE library/pkgIndex.tcl 
-"package ifneeded ttk::theme::tilegtk ${PKG_VERSION} \\
-  [list load [file join $dir lib${PKG_NAME}${PKG_VERSION}[info sharedlibextension]] tilegtk]" )
+"package ifneeded ttk::theme::gtkTtk ${PKG_VERSION} \\
+  [list load [file join $dir lib${PKG_NAME}${PKG_VERSION}[info sharedlibextension]] gtkTtk]" )
 
 INSTALL ( TARGETS ${PKG_TARGET_LIB_NAME}
           RUNTIME DESTINATION ${PKG_TARGET_LIB_NAME}
           LIBRARY DESTINATION ${PKG_TARGET_LIB_NAME}
           ARCHIVE DESTINATION ${PKG_TARGET_LIB_NAME} )
-INSTALL ( FILES library/pkgIndex.tcl library/tilegtk.tcl
+INSTALL ( FILES library/pkgIndex.tcl library/gtkTtk.tcl
           DESTINATION ${PKG_TARGET_LIB_NAME} )
 
 ENABLE_TESTING ( )

@@ -1,8 +1,8 @@
 /*
- *  tileGtk_Entry.cpp
+ *  gtkTtk_Entry.cpp
  * ------------------
  *
- * This file is part of the Tile-Gtk package, a Tk/Tile based theme that uses
+ * This file is part of the gtkTtk package, a Tk/Tile based theme that uses
  * Gtk/GNOME for drawing.
  *
  * Copyright (C) 2004-2008 by:
@@ -13,9 +13,9 @@
  * Aghia Paraskevi, 153 10, Athens, Greece.
  */
 
-#include "tileGtk_Utilities.h"
-#include "tileGtk_TkHeaders.h"
-#include "tileGtk_WidgetDefaults.h"
+#include "gtkTtk_Utilities.h"
+#include "gtkTtk_TkHeaders.h"
+#include "gtkTtk_WidgetDefaults.h"
 
 #if 0
 /*
@@ -38,46 +38,46 @@ static void EntryFieldElementGeometry(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     int *widthPtr, int *heightPtr, Ttk_Padding *paddingPtr)
 {
-    TILEGTK_WIDGET_CACHE_DEFINITION;
+    GTKTTK_WIDGET_CACHE_DEFINITION;
     // GtkBorder border = {0, 0, 0, 0};
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
-    GtkWidget *widget = TileGtk_GetEntry(wc);
-    TILEGTK_ENSURE_WIDGET_OK;
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    GtkWidget *widget = GtkTtk_GetEntry(wc);
+    GTKTTK_ENSURE_WIDGET_OK;
     int xt = widget->style->xthickness;
     int yt = widget->style->ythickness;
     *paddingPtr = Ttk_MakePadding(xt + EntryUniformPadding,
                                   yt + EntryUniformPadding,
                                   xt + EntryUniformPadding,
                                   yt + EntryUniformPadding);
-    // TileGtk_gtk_widget_style_get(widget, "inner-border", &border, NULL);
-    // TileGtk_g_object_get(widget, "inner-border", &border, NULL);
-    // *paddingPtr = TILEGTK_GTKBORDER_TO_PADDING(border);
+    // GtkTtk_gtk_widget_style_get(widget, "inner-border", &border, NULL);
+    // GtkTtk_g_object_get(widget, "inner-border", &border, NULL);
+    // *paddingPtr = GTKTTK_GTKBORDER_TO_PADDING(border);
 }
 
 static void EntryFieldElementDraw(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     Drawable d, Ttk_Box b, unsigned state)
 {
-    TILEGTK_GTK_DRAWABLE_DEFINITIONS;
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    GTKTTK_GTK_DRAWABLE_DEFINITIONS;
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
     gboolean hasFrame = TRUE;
-    GtkWidget *widget = TileGtk_GetEntry(wc);
-    TILEGTK_ENSURE_WIDGET_OK;
-    TILEGTK_DRAWABLE_FROM_WIDGET;
-    style = TileGtk_GetGtkWindowStyle(wc->gtkWindow);
-    TILEGTK_DEFAULT_BACKGROUND;
+    GtkWidget *widget = GtkTtk_GetEntry(wc);
+    GTKTTK_ENSURE_WIDGET_OK;
+    GTKTTK_DRAWABLE_FROM_WIDGET;
+    style = GtkTtk_GetGtkWindowStyle(wc->gtkWindow);
+    GTKTTK_DEFAULT_BACKGROUND;
     if (hasFrame) {
-      TILEGTK_STYLE_FROM_WIDGET;
-      TileGtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
-              TILEGTK_SECTION_ENTRY|TILEGTK_SECTION_ALL);
-      TILEGTK_WIDGET_SET_FOCUS(widget);
-      TileGtk_gtk_paint_shadow(style, gdkDrawable, gtkState, gtkShadow, NULL,
+      GTKTTK_STYLE_FROM_WIDGET;
+      GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
+              GTKTTK_SECTION_ENTRY|GTKTTK_SECTION_ALL);
+      GTKTTK_WIDGET_SET_FOCUS(widget);
+      GtkTtk_gtk_paint_shadow(style, gdkDrawable, gtkState, gtkShadow, NULL,
               widget, "entry", 0, 0, b.width, b.height);
     }
-    // TileGtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
-    TileGtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
+    // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
+    GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
                    0, 0, b.width, b.height, b.x, b.y);
-    TILEGTK_CLEANUP_GTK_DRAWABLE;
+    GTKTTK_CLEANUP_GTK_DRAWABLE;
 }
 
 static Ttk_ElementSpec EntryFieldElementSpec = {
@@ -92,8 +92,8 @@ static Ttk_ElementSpec EntryFieldElementSpec = {
  * +++ Widget layout.
  */
 
-int TileGtk_Init_Entry(Tcl_Interp *interp,
-                       TileGtk_WidgetCache **wc, Ttk_Theme themePtr)
+int GtkTtk_Init_Entry(Tcl_Interp *interp,
+                       GtkTtk_WidgetCache **wc, Ttk_Theme themePtr)
 {
     /*
      * Register elements:
@@ -106,4 +106,4 @@ int TileGtk_Init_Entry(Tcl_Interp *interp,
      */
 
     return TCL_OK;
-}; /* TileGtk_Init_Entry */
+}; /* GtkTtk_Init_Entry */

@@ -2,7 +2,7 @@
  *  tkMacros.h
  * ----------------------
  *
- * This file is part of the Tile-Gtk package, a Tk/Tile based theme that uses
+ * This file is part of the gtkTtk package, a Tk/Tile based theme that uses
  * Gtk/GNOME for drawing.
  *
  * Copyright (C) 2004-2008 by:
@@ -13,8 +13,8 @@
  * Aghia Paraskevi, 153 10, Athens, Greece.
  */
 
-#ifndef __TILEGTK_TK_MACROS
-#define __TILEGTK_TK_MACROS
+#ifndef __GTKTTK_TK_MACROS
+#define __GTKTTK_TK_MACROS
 
 typedef struct {
      long flags;
@@ -73,4 +73,4 @@ typedef struct Tk_FakeWmInfo {
 
 #define Tk_RealToplevelWindow(tkwin)	((((Tk_FakeWmInfo *) (((Tk_FakeWin *) (tkwin))->dummy16))->wrapperPtr)->window)
 
-#endif /* __TILEGTK_TK_MACROS */
+#endif /* __GTKTTK_TK_MACROS */

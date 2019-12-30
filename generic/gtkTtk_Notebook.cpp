@@ -1,8 +1,8 @@
 /*
- *  tileGtk_Notebook.cpp
+ *  gtkTtk_Notebook.cpp
  * ---------------------
  *
- * This file is part of the Tile-Gtk package, a Tk/Tile based theme that uses
+ * This file is part of the gtkTtk package, a Tk/Tile based theme that uses
  * Gtk/GNOME for drawing.
  *
  * Copyright (C) 2004-2008 by:
@@ -13,9 +13,9 @@
  * Aghia Paraskevi, 153 10, Athens, Greece.
  */
 
-#include "tileGtk_Utilities.h"
-#include "tileGtk_TkHeaders.h"
-#include "tileGtk_WidgetDefaults.h"
+#include "gtkTtk_Utilities.h"
+#include "gtkTtk_TkHeaders.h"
+#include "gtkTtk_WidgetDefaults.h"
 
 #if 0
 /*
@@ -38,12 +38,12 @@ static void NotebookTabElementGeometry(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     int *widthPtr, int *heightPtr, Ttk_Padding *paddingPtr)
 {
-    TILEGTK_WIDGET_CACHE_DEFINITION;
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
-    GtkWidget *widget = TileGtk_GetNotebook(wc);
+    GTKTTK_WIDGET_CACHE_DEFINITION;
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    GtkWidget *widget = GtkTtk_GetNotebook(wc);
     gint focus_width = 1, tab_curvature = 1;
-    TILEGTK_ENSURE_WIDGET_OK;
-    TileGtk_gtk_widget_style_get(widget, "focus-line-width", &focus_width,
+    GTKTTK_ENSURE_WIDGET_OK;
+    GtkTtk_gtk_widget_style_get(widget, "focus-line-width", &focus_width,
                                  "tab-curvature",    &tab_curvature, NULL);
     *paddingPtr = Ttk_UniformPadding(tab_curvature + focus_width +
                                      ((GtkNotebook *)widget)->tab_hborder);
@@ -55,20 +55,20 @@ static void NotebookTabElementDraw(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     Drawable d, Ttk_Box b, unsigned state)
 {
-    TILEGTK_GTK_DRAWABLE_DEFINITIONS;
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    GTKTTK_GTK_DRAWABLE_DEFINITIONS;
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
     int height_with_overlap = b.height + TAB_BASE_OVERLAP_MAX;
     int dh = 0;
-    /* TILEGTK_SETUP_GTK_DRAWABLE_PIXMAP_SIZE(b.width, height_with_overlap); */
-    /* GtkWidget *widget = TileGtk_GetNotebook(wc); */
+    /* GTKTTK_SETUP_GTK_DRAWABLE_PIXMAP_SIZE(b.width, height_with_overlap); */
+    /* GtkWidget *widget = GtkTtk_GetNotebook(wc); */
     /* 10 Aug 2009: Notebook widgets usually have a lighter background.
      * To avoid multiple background colours inside the widget,
      *  use a frame for drawing instead of a notebook gtk widget. */
-    GtkWidget *widget = TileGtk_GetFrame(wc);
-    TILEGTK_ENSURE_WIDGET_OK;
-    TILEGTK_STYLE_FROM_WIDGET;
-    TILEGTK_DRAWABLE_FROM_WIDGET_SIZE(b.width, height_with_overlap);
-    TileGtk_gtk_style_apply_default_background(style, gdkDrawable, TRUE,
+    GtkWidget *widget = GtkTtk_GetFrame(wc);
+    GTKTTK_ENSURE_WIDGET_OK;
+    GTKTTK_STYLE_FROM_WIDGET;
+    GTKTTK_DRAWABLE_FROM_WIDGET_SIZE(b.width, height_with_overlap);
+    GtkTtk_gtk_style_apply_default_background(style, gdkDrawable, TRUE,
             gtkState, NULL, 0, 0, b.width, height_with_overlap);
 
     if (state & TTK_STATE_SELECTED) {
@@ -82,15 +82,15 @@ static void NotebookTabElementDraw(
     } else if (state & TTK_STATE_USER2) {
       /* This is the last tab! */
     }
-    TILEGTK_DEFAULT_BACKGROUND;
-    TileGtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
-            TILEGTK_SECTION_TABS|TILEGTK_SECTION_ALL);
-    // TileGtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
-    TileGtk_gtk_paint_extension(style, gdkDrawable, gtkState, gtkShadow, NULL,
+    GTKTTK_DEFAULT_BACKGROUND;
+    GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
+            GTKTTK_SECTION_TABS|GTKTTK_SECTION_ALL);
+    // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
+    GtkTtk_gtk_paint_extension(style, gdkDrawable, gtkState, gtkShadow, NULL,
        widget, (char *) "tab", 0, 0, b.width, b.height + dh, GTK_POS_BOTTOM);
-    TileGtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
+    GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
                    0, 0, b.width, b.height + dh, b.x, b.y);
-    TILEGTK_CLEANUP_GTK_DRAWABLE;
+    GTKTTK_CLEANUP_GTK_DRAWABLE;
 }
 
 static Ttk_ElementSpec NotebookTabElementSpec = {
@@ -123,26 +123,26 @@ static void NotebookClientElementDraw(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     Drawable d, Ttk_Box b, unsigned state)
 {
-    TILEGTK_GTK_DRAWABLE_DEFINITIONS;
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
-    /* TILEGTK_SETUP_GTK_DRAWABLE; */
-    /* GtkWidget *widget = TileGtk_GetNotebook(wc); */
+    GTKTTK_GTK_DRAWABLE_DEFINITIONS;
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    /* GTKTTK_SETUP_GTK_DRAWABLE; */
+    /* GtkWidget *widget = GtkTtk_GetNotebook(wc); */
     /* 10 Aug 2009: Notebook widgets usually have a lighter background.
      * To avoid multiple background colours inside the widget,
      *  use a frame for drawing instead of a notebook gtk widget. */
-    GtkWidget *widget = TileGtk_GetFrame(wc);
-    TILEGTK_ENSURE_WIDGET_OK;
-    TILEGTK_STYLE_FROM_WIDGET;
-    TILEGTK_DRAWABLE_FROM_WIDGET;
-    // TileGtk_gtk_paint_box_gap(style, gdkDrawable,
+    GtkWidget *widget = GtkTtk_GetFrame(wc);
+    GTKTTK_ENSURE_WIDGET_OK;
+    GTKTTK_STYLE_FROM_WIDGET;
+    GTKTTK_DRAWABLE_FROM_WIDGET;
+    // GtkTtk_gtk_paint_box_gap(style, gdkDrawable,
     //      GTK_STATE_NORMAL,GTK_SHADOW_OUT,
     //      NULL, widget, (char *) "notebook", 0, 0, b.width, b.height,
     //      GTK_POS_TOP, 0, 0);
-    TileGtk_gtk_paint_box(style, gdkDrawable, GTK_STATE_NORMAL, GTK_SHADOW_OUT,
+    GtkTtk_gtk_paint_box(style, gdkDrawable, GTK_STATE_NORMAL, GTK_SHADOW_OUT,
          NULL, widget, (char *) "notebook", 0, 0, b.width, b.height);
-    TileGtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
+    GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
                    0, 0, b.width, b.height, b.x, b.y);
-    TILEGTK_CLEANUP_GTK_DRAWABLE;
+    GTKTTK_CLEANUP_GTK_DRAWABLE;
 }
 
 static Ttk_ElementSpec NotebookClientElementSpec = {
@@ -157,8 +157,8 @@ static Ttk_ElementSpec NotebookClientElementSpec = {
  * +++ Widget layout.
  */
 
-int TileGtk_Init_Notebook(Tcl_Interp *interp,
-                         TileGtk_WidgetCache **wc, Ttk_Theme themePtr)
+int GtkTtk_Init_Notebook(Tcl_Interp *interp,
+                         GtkTtk_WidgetCache **wc, Ttk_Theme themePtr)
 {
     /*
      * Register elements:
@@ -173,4 +173,4 @@ int TileGtk_Init_Notebook(Tcl_Interp *interp,
      */
 
     return TCL_OK;
-}; /* TileGtk_Init_Notebook */
+}; /* GtkTtk_Init_Notebook */

@@ -1,8 +1,8 @@
 /*
- *  tileGtk_WidgetDefaults.h
+ *  gtkTtk_WidgetDefaults.h
  * -------------------------
  *
- * This file is part of the Tile-Gtk package, a Tk/Tile based theme that uses
+ * This file is part of the gtkTtk package, a Tk/Tile based theme that uses
  * Gtk/GNOME for drawing.
  *
  * Copyright (C) 2004-2008 by:

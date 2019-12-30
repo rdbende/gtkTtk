@@ -1,61 +1,61 @@
 /*
- * $Id: tileGtk_Init.cpp,v 1.15 2012/07/22 19:26:14 petasis Exp $
+ * $Id: gtkTtk_Init.cpp,v 1.15 2012/07/22 19:26:14 petasis Exp $
  *
  * Copyright (C) 2004-2008 Georgios Petasis
  *
- * The Tile-Gtk theme is a Tk/Tile theme that uses Gtk/GNOME for drawing.
+ * The gtkTtk theme is a Tk/Tile theme that uses Gtk/GNOME for drawing.
  */
 
-#include "tileGtk_Utilities.h"
-#include "tileGtk_TkHeaders.h"
+#include "gtkTtk_Utilities.h"
+#include "gtkTtk_TkHeaders.h"
 #include <string.h>
 
-static int TileGtk_GtkAppCreated = 0;
+static int GtkTtk_GtkAppCreated = 0;
 
-extern TileGtk_WidgetCache **TileGtk_CreateGtkApp(Tcl_Interp *interp);
-extern void TileGtk_DestroyGtkApp(void);
+extern GtkTtk_WidgetCache **GtkTtk_CreateGtkApp(Tcl_Interp *interp);
+extern void GtkTtk_DestroyGtkApp(void);
 
 static char initScript[] =
-  "namespace eval tilegtk { };"
-  "namespace eval ttk::theme::tilegtk { variable version "
+  "namespace eval gtkTtk { };"
+  "namespace eval ttk::theme::gtkTtk { variable version "
                                                  PACKAGE_VERSION " };"
-  "tcl_findLibrary tilegtk $ttk::theme::tilegtk::version "
-  "$ttk::theme::tilegtk::version tilegtk.tcl TILEGTK_LIBRARY tilegtk::library;";
-#ifdef TILEGTK_LOAD_GTK_DYNAMICALLY
+  "tcl_findLibrary gtkTtk $ttk::theme::gtkTtk::version "
+  "$ttk::theme::gtkTtk::version gtkTtk.tcl GTKTTK_LIBRARY gtkTtk::library;";
+#ifdef GTKTTK_LOAD_GTK_DYNAMICALLY
 static char libsInitScript[] =
-  "ttk::theme::tilegtk::loadLibraries";
-#endif /* TILEGTK_LOAD_GTK_DYNAMICALLY */
+  "ttk::theme::gtkTtk::loadLibraries";
+#endif /* GTKTTK_LOAD_GTK_DYNAMICALLY */
 
 /*
  * Exit Handler.
  */
-static void TileGtk_ExitProc(ClientData data) {
-  //Tcl_MutexLock(&tilegtkMutex);
-  //TileGtk_DestroyGtkApp();
-  //Tcl_MutexUnlock(&tilegtkMutex);
-  Tcl_MutexLock(&tilegtkMutex);
-  // printf("TileGtk_ExitProc: %d\n", TileGtk_GtkAppCreated); fflush(NULL);
-  if (TileGtk_GtkAppCreated < 0) {
-    Tcl_MutexUnlock(&tilegtkMutex);
+static void GtkTtk_ExitProc(ClientData data) {
+  //Tcl_MutexLock(&gtkTtkMutex);
+  //GtkTtk_DestroyGtkApp();
+  //Tcl_MutexUnlock(&gtkTtkMutex);
+  Tcl_MutexLock(&gtkTtkMutex);
+  // printf("GtkTtk_ExitProc: %d\n", GtkTtk_GtkAppCreated); fflush(NULL);
+  if (GtkTtk_GtkAppCreated < 0) {
+    Tcl_MutexUnlock(&gtkTtkMutex);
     return;
   }
-  --TileGtk_GtkAppCreated;
-  if (TileGtk_GtkAppCreated == 0) {
-    // printf("TileGtk_ExitProc: %d <- TileGtk_DestroyGtkApp();\n",
-    //       TileGtk_GtkAppCreated); fflush(NULL);
-    TileGtk_DestroyGtkApp();
+  --GtkTtk_GtkAppCreated;
+  if (GtkTtk_GtkAppCreated == 0) {
+    // printf("GtkTtk_ExitProc: %d <- GtkTtk_DestroyGtkApp();\n",
+    //       GtkTtk_GtkAppCreated); fflush(NULL);
+    GtkTtk_DestroyGtkApp();
   }
-  Tcl_MutexUnlock(&tilegtkMutex);
+  Tcl_MutexUnlock(&gtkTtkMutex);
   return;
-}; /* TileGtk_ExitProc */
+}; /* GtkTtk_ExitProc */
 
 /*
  * Helper Functions
  */
-int Tilegtk_ThemeName(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_ThemeName(ClientData clientData, Tcl_Interp *interp,
                                  int objc, Tcl_Obj *const objv[]) {
-  // TileGtk_WidgetCache **wc_array = (TileGtk_WidgetCache **) clientData;
-  // TileGtk_WidgetCache *wc;
+  // GtkTtk_WidgetCache **wc_array = (GtkTtk_WidgetCache **) clientData;
+  // GtkTtk_WidgetCache *wc;
   // if (!wc_array || !wc_array[0]) {
   //   Tcl_SetResult(interp, (char *) "empty wc_array!", TCL_STATIC);
   //   return TCL_ERROR;
@@ -69,20 +69,20 @@ int Tilegtk_ThemeName(ClientData clientData, Tcl_Interp *interp,
   gchar       *strval = NULL;
   if (objc != 1) {Tcl_WrongNumArgs(interp, 1, objv, ""); return TCL_ERROR;}
 
-  Tcl_MutexLock(&tilegtkMutex);
-  settings = TileGtk_gtk_settings_get_default();
+  Tcl_MutexLock(&gtkTtkMutex);
+  settings = GtkTtk_gtk_settings_get_default();
   if (settings) {
-    TileGtk_g_object_get(settings, "gtk-theme-name", &strval, NULL);
+    GtkTtk_g_object_get(settings, "gtk-theme-name", &strval, NULL);
     if (strval) {
       Tcl_SetResult(interp, (char *) strval, TCL_VOLATILE);
-      TileGtk_g_free(strval);
+      GtkTtk_g_free(strval);
     }
   }
-  Tcl_MutexUnlock(&tilegtkMutex);
+  Tcl_MutexUnlock(&gtkTtkMutex);
   return TCL_OK;
-}; /* Tilegtk_ThemeName */
+}; /* Gtkttk_ThemeName */
 
-int Tilegtk_SettingsProperty(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_SettingsProperty(ClientData clientData, Tcl_Interp *interp,
                                  int objc, Tcl_Obj *const objv[]) {
   static const char *Methods[] = {
     "integer", "boolean", "string", (char *) NULL
@@ -106,35 +106,35 @@ int Tilegtk_SettingsProperty(ClientData clientData, Tcl_Interp *interp,
     }
   }
 
-  Tcl_MutexLock(&tilegtkMutex);
-  settings = TileGtk_gtk_settings_get_default();
+  Tcl_MutexLock(&gtkTtkMutex);
+  settings = GtkTtk_gtk_settings_get_default();
   if (settings) {
     switch ((enum methods) type) {
       case INTEGER:
-        TileGtk_g_object_get(settings, Tcl_GetString(objv[1]), &i_val, NULL);
+        GtkTtk_g_object_get(settings, Tcl_GetString(objv[1]), &i_val, NULL);
         Tcl_SetObjResult(interp, Tcl_NewIntObj(i_val));
         break;
       case BOOLEAN:
-        TileGtk_g_object_get(settings, Tcl_GetString(objv[1]), &b_val, NULL);
+        GtkTtk_g_object_get(settings, Tcl_GetString(objv[1]), &b_val, NULL);
         if (b_val) Tcl_SetObjResult(interp, Tcl_NewBooleanObj(1));
         else Tcl_SetObjResult(interp, Tcl_NewBooleanObj(0));
         break;
       case STRING:
-        TileGtk_g_object_get(settings, Tcl_GetString(objv[1]), &s_val, NULL);
+        GtkTtk_g_object_get(settings, Tcl_GetString(objv[1]), &s_val, NULL);
         if (s_val) {
           Tcl_SetResult(interp, (char *) s_val, TCL_VOLATILE);
-          TileGtk_g_free (s_val);
+          GtkTtk_g_free (s_val);
         }
         break;
     }
   }
-  Tcl_MutexUnlock(&tilegtkMutex);
+  Tcl_MutexUnlock(&gtkTtkMutex);
   return TCL_OK;
-}; /* Tilegtk_SettingsProperty */
+}; /* Gtkttk_SettingsProperty */
 
 #define GETPROPERTY_GTK_WIDGET_GET       0
 #define GETPROPERTY_GTK_WIDGET_STYLE_GET 1
-int Tilegtk_GetProperty(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_GetProperty(ClientData clientData, Tcl_Interp *interp,
                                  int objc, Tcl_Obj *const objv[], int gtkMethod) {
   static const char *Methods[] = {
     "integer", "boolean", "string", (char *) NULL
@@ -154,8 +154,8 @@ int Tilegtk_GetProperty(ClientData clientData, Tcl_Interp *interp,
   gboolean     b_val = FALSE;
   gint         i_val = 0;
   GtkWidget   *widget = NULL;
-  TileGtk_WidgetCache **wc_array = (TileGtk_WidgetCache **) clientData;
-  TileGtk_WidgetCache *wc;
+  GtkTtk_WidgetCache **wc_array = (GtkTtk_WidgetCache **) clientData;
+  GtkTtk_WidgetCache *wc;
   if (!wc_array || !wc_array[0]) {
     Tcl_SetResult(interp, (char *) "empty wc_array!", TCL_STATIC);
     return TCL_ERROR;
@@ -172,10 +172,10 @@ int Tilegtk_GetProperty(ClientData clientData, Tcl_Interp *interp,
     return TCL_ERROR;
   }
   switch ((enum widgets) type) {
-    case W_HSCROLLBAR: {widget = TileGtk_GetHScrollBar(wc); break;}
-    case W_VSCROLLBAR: {widget = TileGtk_GetVScrollBar(wc); break;}
-    case W_NOTEBOOK:   {widget = TileGtk_GetNotebook(wc);   break;}
-    case W_BUTTON:     {widget = TileGtk_GetButton(wc);     break;}
+    case W_HSCROLLBAR: {widget = GtkTtk_GetHScrollBar(wc); break;}
+    case W_VSCROLLBAR: {widget = GtkTtk_GetVScrollBar(wc); break;}
+    case W_NOTEBOOK:   {widget = GtkTtk_GetNotebook(wc);   break;}
+    case W_BUTTON:     {widget = GtkTtk_GetButton(wc);     break;}
   }
   /* Get property type, which defaults to "string"... */
   if (objc == 4) {
@@ -185,17 +185,17 @@ int Tilegtk_GetProperty(ClientData clientData, Tcl_Interp *interp,
     }
   }
 
-  Tcl_MutexLock(&tilegtkMutex);
+  Tcl_MutexLock(&gtkTtkMutex);
   if (widget) {
     switch ((enum methods) type) {
       case INTEGER:
         switch (gtkMethod) {
           case GETPROPERTY_GTK_WIDGET_GET:
-            TileGtk_gtk_object_get((GtkObject *) widget,
+            GtkTtk_gtk_object_get((GtkObject *) widget,
                 Tcl_GetString(objv[2]), &i_val, NULL);
           break;
           case GETPROPERTY_GTK_WIDGET_STYLE_GET:
-            TileGtk_gtk_widget_style_get(widget, Tcl_GetString(objv[2]),
+            GtkTtk_gtk_widget_style_get(widget, Tcl_GetString(objv[2]),
                                          &i_val, NULL);
             break;
         }
@@ -204,11 +204,11 @@ int Tilegtk_GetProperty(ClientData clientData, Tcl_Interp *interp,
       case BOOLEAN:
         switch (gtkMethod) {
           case GETPROPERTY_GTK_WIDGET_GET:
-            TileGtk_gtk_object_get((GtkObject *) widget,
+            GtkTtk_gtk_object_get((GtkObject *) widget,
                 Tcl_GetString(objv[2]), &b_val, NULL);
             break;
           case GETPROPERTY_GTK_WIDGET_STYLE_GET:
-            TileGtk_gtk_widget_style_get(widget, Tcl_GetString(objv[2]),
+            GtkTtk_gtk_widget_style_get(widget, Tcl_GetString(objv[2]),
                                          &b_val, NULL);
             break;
         }
@@ -218,38 +218,38 @@ int Tilegtk_GetProperty(ClientData clientData, Tcl_Interp *interp,
       case STRING:
         switch (gtkMethod) {
           case GETPROPERTY_GTK_WIDGET_GET:
-            TileGtk_gtk_object_get((GtkObject *) widget,
+            GtkTtk_gtk_object_get((GtkObject *) widget,
                 Tcl_GetString(objv[2]), &s_val, NULL);
             break;
           case GETPROPERTY_GTK_WIDGET_STYLE_GET:
-            TileGtk_gtk_widget_style_get(widget, Tcl_GetString(objv[2]),
+            GtkTtk_gtk_widget_style_get(widget, Tcl_GetString(objv[2]),
                                          &s_val, NULL);
             break;
         }
         if (s_val) {
           Tcl_SetResult(interp, (char *) s_val, TCL_VOLATILE);
-          TileGtk_g_free (s_val);
+          GtkTtk_g_free (s_val);
         }
         break;
     }
   }
-  Tcl_MutexUnlock(&tilegtkMutex);
+  Tcl_MutexUnlock(&gtkTtkMutex);
   return TCL_OK;
-}; /* Tilegtk_GetProperty */
+}; /* Gtkttk_GetProperty */
 
-int Tilegtk_WidgetProperty(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_WidgetProperty(ClientData clientData, Tcl_Interp *interp,
                           int objc, Tcl_Obj *const objv[]) {
-  return Tilegtk_GetProperty(clientData, interp, objc, objv,
+  return Gtkttk_GetProperty(clientData, interp, objc, objv,
                             GETPROPERTY_GTK_WIDGET_GET);
-}; /* Tilegtk_WidgetProperty */
+}; /* Gtkttk_WidgetProperty */
 
-int Tilegtk_WidgetStyleProperty(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_WidgetStyleProperty(ClientData clientData, Tcl_Interp *interp,
                                  int objc, Tcl_Obj *const objv[]) {
-  return Tilegtk_GetProperty(clientData, interp, objc, objv,
+  return Gtkttk_GetProperty(clientData, interp, objc, objv,
                             GETPROPERTY_GTK_WIDGET_STYLE_GET);
-}; /* Tilegtk_WidgetStyleProperty */
+}; /* Gtkttk_WidgetStyleProperty */
 
-int Tilegtk_GtkEnum(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_GtkEnum(ClientData clientData, Tcl_Interp *interp,
                                  int objc, Tcl_Obj *const objv[]) {
   static const char *Methods[] = {
     "GtkPositionType", (char *) NULL
@@ -286,9 +286,9 @@ int Tilegtk_GtkEnum(ClientData clientData, Tcl_Interp *interp,
   }
   Tcl_SetResult(interp, (char *) n, TCL_STATIC);
   return TCL_OK;
-}; /* Tilegtk_GtkEnum */
+}; /* Gtkttk_GtkEnum */
 
-int Tilegtk_GtkDirectory(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_GtkDirectory(ClientData clientData, Tcl_Interp *interp,
                                  int objc, Tcl_Obj *const objv[]) {
   static const char *Methods[] = {
     "theme", "default_files", (char *) NULL
@@ -308,10 +308,10 @@ int Tilegtk_GtkDirectory(ClientData clientData, Tcl_Interp *interp,
     return TCL_ERROR;
   }
 
-  Tcl_MutexLock(&tilegtkMutex);
+  Tcl_MutexLock(&gtkTtkMutex);
   switch ((enum methods) type) {
     case THEME:
-      dir = TileGtk_gtk_rc_get_theme_dir();
+      dir = GtkTtk_gtk_rc_get_theme_dir();
       break;
     case DEFAULT_FILES:
       if (objc == 3) {
@@ -319,24 +319,24 @@ int Tilegtk_GtkDirectory(ClientData clientData, Tcl_Interp *interp,
         if (Tcl_ListObjGetElements(interp, objv[2], &mobjc, &mobjv) != TCL_OK) {
           return TCL_ERROR;
         }
-        dirs = TileGtk_g_new0(gchar *, mobjc+1);
+        dirs = GtkTtk_g_new0(gchar *, mobjc+1);
         for (int i = 0; i < mobjc; ++i) {
           Tcl_IncrRefCount(mobjv[i]);
           dirs[i] = Tcl_GetString(mobjv[i]);
         }
-        TileGtk_gtk_rc_set_default_files(dirs);
+        GtkTtk_gtk_rc_set_default_files(dirs);
         for (int i = 0; i < mobjc; ++i) {
           Tcl_DecrRefCount(mobjv[i]);
         }
-        TileGtk_g_free(dirs); dirs = NULL;
+        GtkTtk_g_free(dirs); dirs = NULL;
       } else {
-        dirs = TileGtk_gtk_rc_get_default_files();
+        dirs = GtkTtk_gtk_rc_get_default_files();
       }
       break;
   }
   if (dir) {
     Tcl_SetResult(interp, (char *) dir, TCL_VOLATILE);
-    TileGtk_g_free(dir);
+    GtkTtk_g_free(dir);
   }
   if (dirs) {
     Tcl_Obj *list = Tcl_NewListObj(0, NULL);
@@ -346,11 +346,11 @@ int Tilegtk_GtkDirectory(ClientData clientData, Tcl_Interp *interp,
     }
     Tcl_SetObjResult(interp, list);
   }
-  Tcl_MutexUnlock(&tilegtkMutex);
+  Tcl_MutexUnlock(&gtkTtkMutex);
   return TCL_OK;
-}; /* Tilegtk_GtkDirectory */
+}; /* Gtkttk_GtkDirectory */
 
-int Tilegtk_gtk_method(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_gtk_method(ClientData clientData, Tcl_Interp *interp,
                                  int objc, Tcl_Obj *const objv[]) {
   static const char *Methods[] = {
     "gtk_rc_reparse_all_for_settings", "gtk_rc_reset_styles", (char *) NULL
@@ -368,21 +368,21 @@ int Tilegtk_gtk_method(ClientData clientData, Tcl_Interp *interp,
     return TCL_ERROR;
   }
 
-  Tcl_MutexLock(&tilegtkMutex);
+  Tcl_MutexLock(&gtkTtkMutex);
   switch ((enum methods) type) {
     case GTK_RC_REPARSE_ALL_FOR_SETTINGS:
-      TileGtk_gtk_rc_reparse_all_for_settings(
-              TileGtk_gtk_settings_get_default(), TRUE);
+      GtkTtk_gtk_rc_reparse_all_for_settings(
+              GtkTtk_gtk_settings_get_default(), TRUE);
       break;
     case GTK_RC_RESET_STYLES:
-      TileGtk_gtk_rc_reset_styles(TileGtk_gtk_settings_get_default());
+      GtkTtk_gtk_rc_reset_styles(GtkTtk_gtk_settings_get_default());
       break;
   }
-  Tcl_MutexUnlock(&tilegtkMutex);
+  Tcl_MutexUnlock(&gtkTtkMutex);
   return TCL_OK;
-}; /* Tilegtk_gtk_method */
+}; /* Gtkttk_gtk_method */
 
-int Tilegtk_ThemeColour(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_ThemeColour(ClientData clientData, Tcl_Interp *interp,
                                  int objc, Tcl_Obj *const objv[]) {
   static const char *Methods[] = {
     "fg(NORMAL)",           "fg(PRELIGHT)",           "fg(ACTIVE)",
@@ -421,7 +421,7 @@ int Tilegtk_ThemeColour(ClientData clientData, Tcl_Interp *interp,
     TAA_NORMAL,       TAA_PRELIGHT,       TAA_ACTIVE,
     TAA_SELECTED,     TAA_INSENSITIVE
   };
-  TileGtk_WidgetCache **wc = (TileGtk_WidgetCache **) clientData;
+  GtkTtk_WidgetCache **wc = (GtkTtk_WidgetCache **) clientData;
   GdkColor colour;
   gchar* colour_str = NULL;
   GtkStyle *style;
@@ -430,7 +430,7 @@ int Tilegtk_ThemeColour(ClientData clientData, Tcl_Interp *interp,
     Tcl_SetResult(interp, (char *) "empty wc!", TCL_STATIC);
     return TCL_ERROR;
   }
-  style = TileGtk_GetGtkWindowStyle(wc[0]->gtkWindow);
+  style = GtkTtk_GetGtkWindowStyle(wc[0]->gtkWindow);
   if (!style) {
     Tcl_SetResult(interp, (char *) "empty style!", TCL_STATIC);
     return TCL_ERROR;
@@ -484,24 +484,24 @@ int Tilegtk_ThemeColour(ClientData clientData, Tcl_Interp *interp,
     case TAA_SELECTED:      colour = style->text_aa[GTK_STATE_SELECTED];  break;
     case TAA_INSENSITIVE:   colour = style->text_aa[GTK_STATE_INSENSITIVE];
   }
-    colour_str = TileGtk_gdk_color_to_string(&colour);
+    colour_str = GtkTtk_gdk_color_to_string(&colour);
   } else {
-    if (TileGtk_gtk_style_lookup_color(style, Tcl_GetString(objv[1]), &colour)){
-      colour_str = TileGtk_gdk_color_to_string(&colour);
+    if (GtkTtk_gtk_style_lookup_color(style, Tcl_GetString(objv[1]), &colour)){
+      colour_str = GtkTtk_gdk_color_to_string(&colour);
     }
   }
 
   if (colour_str) {
     Tcl_SetResult(interp, (char *) colour_str, TCL_VOLATILE);
-    TileGtk_g_free(colour_str);
+    GtkTtk_g_free(colour_str);
     return TCL_OK;
   }
   Tcl_SetResult(interp, (char *) "colour not found: ", TCL_STATIC);
   Tcl_AppendResult(interp, (char *) Tcl_GetString(objv[1]), NULL);
   return TCL_ERROR;
-}; /* Tilegtk_ThemeColour */
+}; /* Gtkttk_ThemeColour */
 
-#ifndef TILEGTK_LOAD_GTK_DYNAMICALLY
+#ifndef GTKTTK_LOAD_GTK_DYNAMICALLY
 #ifndef GTK_STYLE_GET_PRIVATE
 struct _GtkStylePrivate {
   GSList *color_hashes;
@@ -509,39 +509,39 @@ struct _GtkStylePrivate {
 typedef struct _GtkStylePrivate GtkStylePrivate;
 #define GTK_STYLE_GET_PRIVATE(obj) (G_TYPE_INSTANCE_GET_PRIVATE ((obj), GTK_TYPE_STYLE, GtkStylePrivate))
 #endif
-#endif /* TILEGTK_LOAD_GTK_DYNAMICALLY */
+#endif /* GTKTTK_LOAD_GTK_DYNAMICALLY */
 
-int Tilegtk_ColourKeys(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_ColourKeys(ClientData clientData, Tcl_Interp *interp,
                                  int objc, Tcl_Obj *const objv[]) {
-  TileGtk_WidgetCache **wc = (TileGtk_WidgetCache **) clientData;
+  GtkTtk_WidgetCache **wc = (GtkTtk_WidgetCache **) clientData;
   GtkStyle *style;
   if (!wc) {
     Tcl_SetResult(interp, (char *) "empty wc!", TCL_STATIC);
     return TCL_ERROR;
   }
-  style = TileGtk_GetGtkWindowStyle(wc[0]->gtkWindow);
+  style = GtkTtk_GetGtkWindowStyle(wc[0]->gtkWindow);
   if (!style) {
     Tcl_SetResult(interp, (char *) "empty style!", TCL_STATIC);
     return TCL_ERROR;
   }
-#ifndef TILEGTK_LOAD_GTK_DYNAMICALLY
+#ifndef GTKTTK_LOAD_GTK_DYNAMICALLY
   GtkStylePrivate *priv = GTK_STYLE_GET_PRIVATE(style);
   GSList *iter;
   Tcl_Obj *list = Tcl_NewListObj(0, NULL);
   for (iter = priv->color_hashes; iter != NULL; iter = iter->next) {
     GHashTable *hash    = (GHashTable *) iter->data;
-    GList *keys = TileGtk_g_hash_table_get_keys(hash);
+    GList *keys = GtkTtk_g_hash_table_get_keys(hash);
     for (; keys != NULL; keys = keys->next) {
       Tcl_ListObjAppendElement(NULL, list,
                                Tcl_NewStringObj((char *) keys->data, -1));
     }
   }
   Tcl_SetObjResult(interp, list);
-#endif /* TILEGTK_LOAD_GTK_DYNAMICALLY */
+#endif /* GTKTTK_LOAD_GTK_DYNAMICALLY */
   return TCL_OK;
-}; /* Tilegtk_ColourKeys */
+}; /* Gtkttk_ColourKeys */
 
-int Tilegtk_InitialiseLibrary(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_InitialiseLibrary(ClientData clientData, Tcl_Interp *interp,
                                  int objc, Tcl_Obj *const objv[]) {
   static const char *Methods[] = {
     "required",
@@ -564,56 +564,56 @@ int Tilegtk_InitialiseLibrary(ClientData clientData, Tcl_Interp *interp,
   if (Tcl_GetIndexFromObj(interp, objv[1], (const char **) Methods,
                           "method", 0, &index) != TCL_OK)
     return TCL_ERROR;
-  Tcl_MutexLock(&tilegtkMutex);
+  Tcl_MutexLock(&gtkTtkMutex);
   switch ((enum methods) index) {
     case L_REQUIRED:
-#ifdef TILEGTK_LOAD_GTK_DYNAMICALLY
+#ifdef GTKTTK_LOAD_GTK_DYNAMICALLY
       Tcl_SetObjResult(interp, Tcl_NewBooleanObj(1));
 #else
       Tcl_SetObjResult(interp, Tcl_NewBooleanObj(0));
-#endif /* TILEGTK_LOAD_GTK_DYNAMICALLY */
-      Tcl_MutexUnlock(&tilegtkMutex);
+#endif /* GTKTTK_LOAD_GTK_DYNAMICALLY */
+      Tcl_MutexUnlock(&gtkTtkMutex);
       return TCL_OK;
-#ifdef TILEGTK_LOAD_GTK_DYNAMICALLY
+#ifdef GTKTTK_LOAD_GTK_DYNAMICALLY
     case L_GDK:
-      if (!TILEGTK_LAST_SYMBOL_gdk && objc > 2) {
-        status = TileGtk_InitialiseSymbols_gdk(interp, objv[2]);
+      if (!GTKTTK_LAST_SYMBOL_gdk && objc > 2) {
+        status = GtkTtk_InitialiseSymbols_gdk(interp, objv[2]);
       }
       break;
     case L_GDK_PIXBUF:
-      if (!TILEGTK_LAST_SYMBOL_gdk_pixbuf && objc > 2) {
-        status = TileGtk_InitialiseSymbols_gdk_pixbuf(interp, objv[2]);
+      if (!GTKTTK_LAST_SYMBOL_gdk_pixbuf && objc > 2) {
+        status = GtkTtk_InitialiseSymbols_gdk_pixbuf(interp, objv[2]);
       }
       break;
     case L_GDK_PIXBUF_XLIB:
 #ifndef __WIN32__
-      if (!TILEGTK_LAST_SYMBOL_gdk_pixbuf_xlib && objc > 2) {
-        status = TileGtk_InitialiseSymbols_gdk_pixbuf_xlib(interp, objv[2]);
+      if (!GTKTTK_LAST_SYMBOL_gdk_pixbuf_xlib && objc > 2) {
+        status = GtkTtk_InitialiseSymbols_gdk_pixbuf_xlib(interp, objv[2]);
       }
 #endif
       break;
     case L_GLIB:
-      if (!TILEGTK_LAST_SYMBOL_glib && objc > 2) {
-        status = TileGtk_InitialiseSymbols_glib(interp, objv[2]);
+      if (!GTKTTK_LAST_SYMBOL_glib && objc > 2) {
+        status = GtkTtk_InitialiseSymbols_glib(interp, objv[2]);
       }
       break;
     case L_GOBJECT:
-      if (!TILEGTK_LAST_SYMBOL_gobject && objc > 2) {
-        status = TileGtk_InitialiseSymbols_gobject(interp, objv[2]);
+      if (!GTKTTK_LAST_SYMBOL_gobject && objc > 2) {
+        status = GtkTtk_InitialiseSymbols_gobject(interp, objv[2]);
       }
       break;
     case L_GTK:
-      if (!TILEGTK_LAST_SYMBOL_gtk && objc > 2) {
-        status = TileGtk_InitialiseSymbols_gtk(interp, objv[2]);
+      if (!GTKTTK_LAST_SYMBOL_gtk && objc > 2) {
+        status = GtkTtk_InitialiseSymbols_gtk(interp, objv[2]);
       }
       break;
-#endif /* TILEGTK_LOAD_GTK_DYNAMICALLY */
+#endif /* GTKTTK_LOAD_GTK_DYNAMICALLY */
   }
-  Tcl_MutexUnlock(&tilegtkMutex);
+  Tcl_MutexUnlock(&gtkTtkMutex);
   return status;
-}; /* Tilegtk_InitialiseLibrary */
+}; /* Gtkttk_InitialiseLibrary */
 
-int Tilegtk_SetPalette(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_SetPalette(ClientData clientData, Tcl_Interp *interp,
                                  int objc, Tcl_Obj *const objv[]) {
 #if 0
   static const char *Methods[] = {
@@ -639,19 +639,19 @@ int Tilegtk_SetPalette(ClientData clientData, Tcl_Interp *interp,
     Tcl_WrongNumArgs(interp, 1, objv, "?-key value?");
     return TCL_ERROR;
   }
-  Tcl_MutexLock(&tilegtkMutex);
-  Tcl_MutexUnlock(&tilegtkMutex);
+  Tcl_MutexLock(&gtkTtkMutex);
+  Tcl_MutexUnlock(&gtkTtkMutex);
 #endif
   return TCL_OK;
-}; /* Tilegtk_SetPalette */
+}; /* Gtkttk_SetPalette */
 
-int Tilegtk_SetStyle(ClientData clientData, Tcl_Interp *interp,
+int Gtkttk_SetStyle(ClientData clientData, Tcl_Interp *interp,
                                  int objc, Tcl_Obj *const objv[]) {
   if (objc != 2) {Tcl_WrongNumArgs(interp, 1, objv, "style"); return TCL_ERROR;}
-  Tcl_MutexLock(&tilegtkMutex);
+  Tcl_MutexLock(&gtkTtkMutex);
 #if 0
-  TileGtk_WidgetCache **wc_array = (TileGtk_WidgetCache **) clientData;
-  TileGtk_WidgetCache *wc = wc_array[0];
+  GtkTtk_WidgetCache **wc_array = (GtkTtk_WidgetCache **) clientData;
+  GtkTtk_WidgetCache *wc = wc_array[0];
   if (qApp) {
     int len;
     const char* str = Tcl_GetStringFromObj(objv[1], &len);
@@ -661,59 +661,59 @@ int Tilegtk_SetStyle(ClientData clientData, Tcl_Interp *interp,
     if (new_style == NULL) {
       Tcl_SetResult(interp, (char *) "unknwon style: \"", TCL_STATIC);
       Tcl_AppendResult(interp, str, "\"", NULL);
-      Tcl_MutexUnlock(&tilegtkMutex);
+      Tcl_MutexUnlock(&gtkTtkMutex);
       return TCL_ERROR;
     }
     //qApp->setStyle(style);
     /* Is this style the qApp style? */
-    if (wc->TileGtk_Style_Owner) todelete = wc->TileGtk_Style;
+    if (wc->GtkTtk_Style_Owner) todelete = wc->GtkTtk_Style;
 
-#ifdef TILEGTK_GTK_VERSION_3                    
+#ifdef GTKTTK_GTK_VERSION_3                    
     if (strcmp(qApp->style().name(), str) == 0) {
-      wc->TileGtk_Style = &(qApp->style());
-#endif /* TILEGTK_GTK_VERSION_3 */
-#ifdef TILEGTK_GTK_VERSION_4                    
+      wc->GtkTtk_Style = &(qApp->style());
+#endif /* GTKTTK_GTK_VERSION_3 */
+#ifdef GTKTTK_GTK_VERSION_4                    
     if (qApp->style()->objectName() == style) {
-      wc->TileGtk_Style = qApp->style();
-#endif /* TILEGTK_GTK_VERSION_4 */
-      wc->TileGtk_Style_Owner = false;
+      wc->GtkTtk_Style = qApp->style();
+#endif /* GTKTTK_GTK_VERSION_4 */
+      wc->GtkTtk_Style_Owner = false;
     } else {
-      wc->TileGtk_Style = QStyleFactory::create(style);
-      wc->TileGtk_Style_Owner = true;
+      wc->GtkTtk_Style = QStyleFactory::create(style);
+      wc->GtkTtk_Style_Owner = true;
     }
-    TileGtk_StoreStyleNameLowers(wc);
-    wc->TileGtk_QScrollBar_Widget->setStyle(wc->TileGtk_Style);
-    wc->TileGtk_QComboBox_RW_Widget->setStyle(wc->TileGtk_Style);
-    wc->TileGtk_QComboBox_RO_Widget->setStyle(wc->TileGtk_Style);
-    wc->TileGtk_QWidget_WidgetParent->setStyle(wc->TileGtk_Style);
-    wc->TileGtk_QWidget_Widget->setStyle(wc->TileGtk_Style);
-#ifdef TILEGTK_GTK_VERSION_3
-    wc->TileGtk_QWidget_Widget->polish();
-#endif /* TILEGTK_GTK_VERSION_3 */
-    wc->TileGtk_QSlider_Hor_Widget->setStyle(wc->TileGtk_Style);
-    wc->TileGtk_QSlider_Ver_Widget->setStyle(wc->TileGtk_Style);
-    wc->TileGtk_QProgressBar_Hor_Widget->setStyle(wc->TileGtk_Style);
-    wc->TileGtk_GTKabWidget_Widget->setStyle(wc->TileGtk_Style);
-    wc->TileGtk_QPixmap_BackgroundTile = 
-#ifdef TILEGTK_GTK_VERSION_3
-                     (wc->TileGtk_QWidget_Widget)->paletteBackgroundPixmap();
-#endif /* TILEGTK_GTK_VERSION_3 */
-#ifdef TILEGTK_GTK_VERSION_4
-                     (wc->TileGtk_QWidget_Widget)->palette().window().texture();
-#endif /* TILEGTK_GTK_VERSION_4 */
-    wc->TileGtk_Style->polish(wc->TileGtk_QWidget_Widget);
+    GtkTtk_StoreStyleNameLowers(wc);
+    wc->GtkTtk_QScrollBar_Widget->setStyle(wc->GtkTtk_Style);
+    wc->GtkTtk_QComboBox_RW_Widget->setStyle(wc->GtkTtk_Style);
+    wc->GtkTtk_QComboBox_RO_Widget->setStyle(wc->GtkTtk_Style);
+    wc->GtkTtk_QWidget_WidgetParent->setStyle(wc->GtkTtk_Style);
+    wc->GtkTtk_QWidget_Widget->setStyle(wc->GtkTtk_Style);
+#ifdef GTKTTK_GTK_VERSION_3
+    wc->GtkTtk_QWidget_Widget->polish();
+#endif /* GTKTTK_GTK_VERSION_3 */
+    wc->GtkTtk_QSlider_Hor_Widget->setStyle(wc->GtkTtk_Style);
+    wc->GtkTtk_QSlider_Ver_Widget->setStyle(wc->GtkTtk_Style);
+    wc->GtkTtk_QProgressBar_Hor_Widget->setStyle(wc->GtkTtk_Style);
+    wc->GtkTtk_GTKabWidget_Widget->setStyle(wc->GtkTtk_Style);
+    wc->GtkTtk_QPixmap_BackgroundTile = 
+#ifdef GTKTTK_GTK_VERSION_3
+                     (wc->GtkTtk_QWidget_Widget)->paletteBackgroundPixmap();
+#endif /* GTKTTK_GTK_VERSION_3 */
+#ifdef GTKTTK_GTK_VERSION_4
+                     (wc->GtkTtk_QWidget_Widget)->palette().window().texture();
+#endif /* GTKTTK_GTK_VERSION_4 */
+    wc->GtkTtk_Style->polish(wc->GtkTtk_QWidget_Widget);
     if (todelete) delete todelete;
 #if 0
     // Print Scrollbar statistics...
 #define SC_PRINT_INFO(subcontrol) \
-    wc->TileGtk_Style->querySubControlMetrics(QStyle::CC_ScrollBar,\
-        wc->TileGtk_QScrollBar_Widget, subcontrol).x(),\
-    wc->TileGtk_Style->querySubControlMetrics(QStyle::CC_ScrollBar,\
-        wc->TileGtk_QScrollBar_Widget, subcontrol).y(),\
-    wc->TileGtk_Style->querySubControlMetrics(QStyle::CC_ScrollBar,\
-        wc->TileGtk_QScrollBar_Widget, subcontrol).width(),\
-    wc->TileGtk_Style->querySubControlMetrics(QStyle::CC_ScrollBar,\
-        wc->TileGtk_QScrollBar_Widget, subcontrol).height()
+    wc->GtkTtk_Style->querySubControlMetrics(QStyle::CC_ScrollBar,\
+        wc->GtkTtk_QScrollBar_Widget, subcontrol).x(),\
+    wc->GtkTtk_Style->querySubControlMetrics(QStyle::CC_ScrollBar,\
+        wc->GtkTtk_QScrollBar_Widget, subcontrol).y(),\
+    wc->GtkTtk_Style->querySubControlMetrics(QStyle::CC_ScrollBar,\
+        wc->GtkTtk_QScrollBar_Widget, subcontrol).width(),\
+    wc->GtkTtk_Style->querySubControlMetrics(QStyle::CC_ScrollBar,\
+        wc->GtkTtk_QScrollBar_Widget, subcontrol).height()
     printf("SC_ScrollBarAddLine: x=%d, y=%d, w=%d, h=%d\n", SC_PRINT_INFO(QStyle::SC_ScrollBarAddLine));
     printf("SC_ScrollBarSubLine: x=%d, y=%d, w=%d, h=%d\n", SC_PRINT_INFO(QStyle::SC_ScrollBarSubLine));
     printf("SC_ScrollBarAddPage: x=%d, y=%d, w=%d, h=%d\n", SC_PRINT_INFO(QStyle::SC_ScrollBarAddPage));
@@ -722,29 +722,29 @@ int Tilegtk_SetStyle(ClientData clientData, Tcl_Interp *interp,
     printf("SC_ScrollBarLast: x=%d, y=%d, w=%d, h=%d\n", SC_PRINT_INFO(QStyle::SC_ScrollBarLast));
 #endif
   }
-  memcpy(wc_array[1], wc_array[0], sizeof(TileGtk_WidgetCache));
+  memcpy(wc_array[1], wc_array[0], sizeof(GtkTtk_WidgetCache));
   wc_array[0]->orientation = TTK_ORIENT_HORIZONTAL;
   wc_array[1]->orientation = TTK_ORIENT_VERTICAL;
   /* Save the name of the current theme... */
-  Tcl_SetVar(interp, "ttk::theme::tilegtk::theme",
-#ifdef TILEGTK_GTK_VERSION_3                    
-             wc->TileGtk_Style->name(), TCL_GLOBAL_ONLY);
-#endif /* TILEGTK_GTK_VERSION_3 */
-#ifdef TILEGTK_GTK_VERSION_4                    
-             wc->TileGtk_Style->objectName().toUtf8().data(), TCL_GLOBAL_ONLY);
-#endif /* TILEGTK_GTK_VERSION_4 */
+  Tcl_SetVar(interp, "ttk::theme::gtkTtk::theme",
+#ifdef GTKTTK_GTK_VERSION_3                    
+             wc->GtkTtk_Style->name(), TCL_GLOBAL_ONLY);
+#endif /* GTKTTK_GTK_VERSION_3 */
+#ifdef GTKTTK_GTK_VERSION_4                    
+             wc->GtkTtk_Style->objectName().toUtf8().data(), TCL_GLOBAL_ONLY);
+#endif /* GTKTTK_GTK_VERSION_4 */
 #endif
-  Tcl_MutexUnlock(&tilegtkMutex);
+  Tcl_MutexUnlock(&gtkTtkMutex);
   return TCL_OK;
-}; /* Tilegtk_SetStyle */
+}; /* Gtkttk_SetStyle */
 
 extern "C" int DLLEXPORT
-Tilegtk_Init(Tcl_Interp *interp)
+Gtkttk_Init(Tcl_Interp *interp)
 {
     Ttk_Theme themePtr;
     Tk_Window tkwin;
     char tmpScript[1024];
-    TileGtk_WidgetCache **wc = NULL;
+    GtkTtk_WidgetCache **wc = NULL;
     GtkSettings *settings = NULL;
     gchar       *strval = NULL;
 
@@ -758,130 +758,130 @@ Tilegtk_Init(Tcl_Interp *interp)
     tkwin = Tk_MainWindow(interp);
     if (tkwin == NULL) return TCL_ERROR;
 
-    themePtr  = Ttk_CreateTheme(interp, "tilegtk", NULL);
+    themePtr  = Ttk_CreateTheme(interp, "gtkTtk", NULL);
     if (!themePtr) return TCL_ERROR;
 
     Tcl_CreateObjCommand(interp,
-                         "ttk::theme::tilegtk::initialiseLibrary",
-                         Tilegtk_InitialiseLibrary, (ClientData) wc, NULL);
+                         "ttk::theme::gtkTtk::initialiseLibrary",
+                         Gtkttk_InitialiseLibrary, (ClientData) wc, NULL);
     if (Tcl_Eval(interp, initScript) != TCL_OK) {
       return TCL_ERROR;
     }
-#ifdef TILEGTK_LOAD_GTK_DYNAMICALLY
-    if (!TileGtk_GtkAppCreated) {
+#ifdef GTKTTK_LOAD_GTK_DYNAMICALLY
+    if (!GtkTtk_GtkAppCreated) {
       if (Tcl_Eval(interp, libsInitScript) != TCL_OK) {
         return TCL_ERROR;
       }
     }
-#endif /* TILEGTK_LOAD_GTK_DYNAMICALLY */
+#endif /* GTKTTK_LOAD_GTK_DYNAMICALLY */
 
     /*
      * Initialise Gtk:
      */
-    Tcl_MutexLock(&tilegtkMutex);
-    wc = TileGtk_CreateGtkApp(interp);
-    ++TileGtk_GtkAppCreated;
+    Tcl_MutexLock(&gtkTtkMutex);
+    wc = GtkTtk_CreateGtkApp(interp);
+    ++GtkTtk_GtkAppCreated;
 
     /*
      * Register the various widgets...
      */
-    TileGtk_Init_Background(interp, wc, themePtr);
-    TileGtk_Init_Button(interp, wc, themePtr);
-    TileGtk_Init_CheckButton(interp, wc, themePtr);
-    TileGtk_Init_RadioButton(interp, wc, themePtr);
-    TileGtk_Init_ToolButton(interp, wc, themePtr);
-    TileGtk_Init_Labelframe(interp, wc, themePtr);
-    TileGtk_Init_Entry(interp, wc, themePtr);
-    TileGtk_Init_Menubutton(interp, wc, themePtr);
-    TileGtk_Init_Scrollbar(interp, wc, themePtr);
-    TileGtk_Init_Scale(interp, wc, themePtr);
-    TileGtk_Init_Progress(interp, wc, themePtr);
-    TileGtk_Init_SizeGrip(interp, wc, themePtr);
-    TileGtk_Init_Paned(interp, wc, themePtr);
-    TileGtk_Init_Notebook(interp, wc, themePtr);
-    TileGtk_Init_Combobox(interp, wc, themePtr);
+    GtkTtk_Init_Background(interp, wc, themePtr);
+    GtkTtk_Init_Button(interp, wc, themePtr);
+    GtkTtk_Init_CheckButton(interp, wc, themePtr);
+    GtkTtk_Init_RadioButton(interp, wc, themePtr);
+    GtkTtk_Init_ToolButton(interp, wc, themePtr);
+    GtkTtk_Init_Labelframe(interp, wc, themePtr);
+    GtkTtk_Init_Entry(interp, wc, themePtr);
+    GtkTtk_Init_Menubutton(interp, wc, themePtr);
+    GtkTtk_Init_Scrollbar(interp, wc, themePtr);
+    GtkTtk_Init_Scale(interp, wc, themePtr);
+    GtkTtk_Init_Progress(interp, wc, themePtr);
+    GtkTtk_Init_SizeGrip(interp, wc, themePtr);
+    GtkTtk_Init_Paned(interp, wc, themePtr);
+    GtkTtk_Init_Notebook(interp, wc, themePtr);
+    GtkTtk_Init_Combobox(interp, wc, themePtr);
 #if 0
-    TileGtk_Init_TreeView(interp, wc, themePtr);
-    //TileGtk_Init_Separator(interp, wc, themePtr);
-    //TileGtk_Init_Arrows(interp, wc, themePtr);
+    GtkTtk_Init_TreeView(interp, wc, themePtr);
+    //GtkTtk_Init_Separator(interp, wc, themePtr);
+    //GtkTtk_Init_Arrows(interp, wc, themePtr);
 #endif
-    Tcl_CreateExitHandler(&TileGtk_ExitProc, 0);
-    //Tcl_CreateThreadExitHandler(&TileGtk_ExitProc, 0);
+    Tcl_CreateExitHandler(&GtkTtk_ExitProc, 0);
+    //Tcl_CreateThreadExitHandler(&GtkTtk_ExitProc, 0);
     
     /*
      * Register the TileGtk package...
      */
-    Tcl_CreateObjCommand(interp, "ttk::theme::tilegtk::gtkEnum",
-                         Tilegtk_GtkEnum, (ClientData) wc, NULL);
-    Tcl_CreateObjCommand(interp, "ttk::theme::tilegtk::settingsProperty",
-                         Tilegtk_SettingsProperty, (ClientData) wc, NULL);
-    Tcl_CreateObjCommand(interp, "ttk::theme::tilegtk::widgetStyleProperty",
-                         Tilegtk_WidgetStyleProperty, (ClientData) wc, NULL);
-    Tcl_CreateObjCommand(interp, "ttk::theme::tilegtk::widgetProperty",
-                         Tilegtk_WidgetProperty, (ClientData) wc, NULL);
-    Tcl_CreateObjCommand(interp, "ttk::theme::tilegtk::currentThemeName",
-                         Tilegtk_ThemeName, (ClientData) wc, NULL);
-    Tcl_CreateObjCommand(interp, "ttk::theme::tilegtk::gtkDirectory",
-                         Tilegtk_GtkDirectory, (ClientData) wc, NULL);
-    Tcl_CreateObjCommand(interp, "ttk::theme::tilegtk::setStyle",
-                         Tilegtk_SetStyle, (ClientData) wc, NULL);
-    Tcl_CreateObjCommand(interp, "ttk::theme::tilegtk::gtk_method",
-                         Tilegtk_gtk_method, (ClientData) wc, NULL);
+    Tcl_CreateObjCommand(interp, "ttk::theme::gtkTtk::gtkEnum",
+                         Gtkttk_GtkEnum, (ClientData) wc, NULL);
+    Tcl_CreateObjCommand(interp, "ttk::theme::gtkTtk::settingsProperty",
+                         Gtkttk_SettingsProperty, (ClientData) wc, NULL);
+    Tcl_CreateObjCommand(interp, "ttk::theme::gtkTtk::widgetStyleProperty",
+                         Gtkttk_WidgetStyleProperty, (ClientData) wc, NULL);
+    Tcl_CreateObjCommand(interp, "ttk::theme::gtkTtk::widgetProperty",
+                         Gtkttk_WidgetProperty, (ClientData) wc, NULL);
+    Tcl_CreateObjCommand(interp, "ttk::theme::gtkTtk::currentThemeName",
+                         Gtkttk_ThemeName, (ClientData) wc, NULL);
+    Tcl_CreateObjCommand(interp, "ttk::theme::gtkTtk::gtkDirectory",
+                         Gtkttk_GtkDirectory, (ClientData) wc, NULL);
+    Tcl_CreateObjCommand(interp, "ttk::theme::gtkTtk::setStyle",
+                         Gtkttk_SetStyle, (ClientData) wc, NULL);
+    Tcl_CreateObjCommand(interp, "ttk::theme::gtkTtk::gtk_method",
+                         Gtkttk_gtk_method, (ClientData) wc, NULL);
     Tcl_CreateObjCommand(interp,
-                         "ttk::theme::tilegtk::currentThemeColour",
-                         Tilegtk_ThemeColour, (ClientData) wc, NULL);
+                         "ttk::theme::gtkTtk::currentThemeColour",
+                         Gtkttk_ThemeColour, (ClientData) wc, NULL);
     Tcl_CreateObjCommand(interp,
-                         "ttk::theme::tilegtk::currentThemeColourKeys",
-                         Tilegtk_ColourKeys, (ClientData) wc, NULL);
+                         "ttk::theme::gtkTtk::currentThemeColourKeys",
+                         Gtkttk_ColourKeys, (ClientData) wc, NULL);
 #if 0
     Tcl_CreateObjCommand(interp,
-                         "ttk::theme::tilegtk::setPalette",
-                         Tilegtk_SetPalette, (ClientData) wc, NULL);
+                         "ttk::theme::gtkTtk::setPalette",
+                         Gtkttk_SetPalette, (ClientData) wc, NULL);
     Tcl_CreateObjCommand(interp,
-                         "ttk::theme::tilegtk::getPixelMetric",
-                         Tilegtk_GetPixelMetric, (ClientData) wc, NULL);
+                         "ttk::theme::gtkTtk::getPixelMetric",
+                         Gtkttk_GetPixelMetric, (ClientData) wc, NULL);
     Tcl_CreateObjCommand(interp,
-                         "ttk::theme::tilegtk::getStyleHint",
-                         Tilegtk_GetStyleHint, (ClientData) wc, NULL);
+                         "ttk::theme::gtkTtk::getStyleHint",
+                         Gtkttk_GetStyleHint, (ClientData) wc, NULL);
     Tcl_CreateObjCommand(interp,
-                         "ttk::theme::tilegtk::getSubControlMetrics",
-                         Tilegtk_GetSubControlMetrics, (ClientData) wc, NULL);
+                         "ttk::theme::gtkTtk::getSubControlMetrics",
+                         Gtkttk_GetSubControlMetrics, (ClientData) wc, NULL);
 #endif
     /* Save the name of the current theme... */
-    strcpy(tmpScript, "namespace eval ttk::theme::tilegtk { variable theme ");
-    settings = TileGtk_gtk_settings_get_default();
+    strcpy(tmpScript, "namespace eval ttk::theme::gtkTtk { variable theme ");
+    settings = GtkTtk_gtk_settings_get_default();
     if (settings) {
-      TileGtk_g_object_get(settings, "gtk-theme-name", &strval, NULL);
+      GtkTtk_g_object_get(settings, "gtk-theme-name", &strval, NULL);
       strcat(tmpScript, "{");
       if (strval) {
         strcat(tmpScript, strval);
-        TileGtk_g_free(strval);
+        GtkTtk_g_free(strval);
       }
       strcat(tmpScript, "}");
     } else {
       strcat(tmpScript, "{}");
     }
     strcat(tmpScript, " };");
-    Tcl_MutexUnlock(&tilegtkMutex);
+    Tcl_MutexUnlock(&gtkTtkMutex);
     
     if (Tcl_Eval(interp, tmpScript) != TCL_OK) {
       return TCL_ERROR;
     }
-    if (Tcl_Eval(interp, "ttk::theme::tilegtk::init") != TCL_OK) {
+    if (Tcl_Eval(interp, "ttk::theme::gtkTtk::init") != TCL_OK) {
       return TCL_ERROR;
     }
-    Tcl_PkgProvide(interp, "ttk::theme::tilegtk", PACKAGE_VERSION);
+    Tcl_PkgProvide(interp, "ttk::theme::gtkTtk", PACKAGE_VERSION);
     Tcl_PkgProvide(interp, PACKAGE_NAME, PACKAGE_VERSION);
     return TCL_OK;
-}; /* TileGtk_Init */
+}; /* GtkTtk_Init */
 
 int DLLEXPORT
-TileGtk_Finish(Tcl_Interp *interp)
+GtkTtk_Finish(Tcl_Interp *interp)
 {
-    Tcl_MutexLock(&tilegtkMutex);
-    if (TileGtk_GtkAppCreated < 0) {Tcl_MutexUnlock(&tilegtkMutex); return 0;}
-    --TileGtk_GtkAppCreated;
-    if (TileGtk_GtkAppCreated == 0) TileGtk_DestroyGtkApp();
-    Tcl_MutexUnlock(&tilegtkMutex);
+    Tcl_MutexLock(&gtkTtkMutex);
+    if (GtkTtk_GtkAppCreated < 0) {Tcl_MutexUnlock(&gtkTtkMutex); return 0;}
+    --GtkTtk_GtkAppCreated;
+    if (GtkTtk_GtkAppCreated == 0) GtkTtk_DestroyGtkApp();
+    Tcl_MutexUnlock(&gtkTtkMutex);
     return 0;
-}; /* TileGtk_Finish */
+}; /* GtkTtk_Finish */

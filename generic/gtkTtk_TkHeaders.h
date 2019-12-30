@@ -1,8 +1,8 @@
 /*
- *  tileGtk_TkHeaders.h
+ *  gtkTtk_TkHeaders.h
  * ----------------------
  *
- * This file is part of the Tile-Gtk package, a Tk/Tile based theme that uses
+ * This file is part of the gtkTtk package, a Tk/Tile based theme that uses
  * Gtk/GNOME for drawing.
  *
  * Copyright (C) 2004-2008 by:
@@ -13,8 +13,8 @@
  * Aghia Paraskevi, 153 10, Athens, Greece.
  */
 
-#ifndef __TILEGTK_TK_HEADERS
-#define __TILEGTK_TK_HEADERS
+#ifndef __GTKTTK_TK_HEADERS
+#define __GTKTTK_TK_HEADERS
 
 #ifdef USE_TK_STUBS
 /*
@@ -31,4 +31,4 @@
 #include <tkWinInt.h>
 #endif
 
-#endif /* __TILEGTK_TK_HEADERS */
+#endif /* __GTKTTK_TK_HEADERS */

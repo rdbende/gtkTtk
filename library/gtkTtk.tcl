@@ -1,4 +1,4 @@
-namespace eval ttk::theme::tilegtk {
+namespace eval ttk::theme::gtkTtk {
   variable PreviewInterp {}
   variable System
   variable StyleToRc
@@ -143,7 +143,7 @@ namespace eval ttk::theme::tilegtk {
     variable GtkHScrollbar
     variable GtkVScrollbar
     if {![info exists theme]} {return}
-    ttk::style theme use tilegtk
+    ttk::style theme use gtkTtk
     # puts "============================================================"
     # puts "Current Gtk Theme: [currentThemeName] ($theme)"
     # puts "Tab alignment:    [getStyleHint   -SH_TabBar_Alignment]"
@@ -232,7 +232,7 @@ namespace eval ttk::theme::tilegtk {
 
   proc updateStyles {} {
     # puts [currentThemeColourKeys]
-    ttk::style theme settings tilegtk {
+    ttk::style theme settings gtkTtk {
       ttk::style configure . \
          -background       [currentThemeColour bg(NORMAL)] \
          -foreground       [currentThemeColour fg(NORMAL)] \
@@ -337,7 +337,7 @@ namespace eval ttk::theme::tilegtk {
           bg(NORMAL)]
       ttk::style configure Vertical.Sash -background [currentThemeColour \
           bg(NORMAL)]
-    };# ttk::style theme settings tilegtk
+    };# ttk::style theme settings gtkTtk
 
     # puts "\nPixel Metric Information:"
     # foreach pm {PM_TabBarTabOverlap       PM_TabBarTabHSpace
@@ -380,7 +380,7 @@ namespace eval ttk::theme::tilegtk {
   };# kdeLocate_kdeglobals
 
   ## updateColourPalette:
-  #  This procedure will be called from tilegtk core each time a message is
+  #  This procedure will be called from gtkTtk core each time a message is
   #  received from KDE to change the palette used.
   proc updateColourPalette {} {
     return
@@ -457,7 +457,7 @@ namespace eval ttk::theme::tilegtk {
   };# updateColourPalette
 
   ## kdeStyleChangeNotification:
-  #  This procedure will be called from tilegtk core each time a message is
+  #  This procedure will be called from gtkTtk core each time a message is
   #  received from KDE to change the style used.
   proc kdeStyleChangeNotification {} {
     return
@@ -491,7 +491,7 @@ namespace eval ttk::theme::tilegtk {
   ## applyStyle:
   #  This procedure can be used to apply any available GTK+ style.
   #  Ths "style" parameter must be a string from the style names returned by
-  #  ttk::theme::tilegtk::availableStyles.
+  #  ttk::theme::gtkTtk::availableStyles.
   proc applyStyle {style} {
     variable StyleToRc
     variable System
@@ -502,7 +502,7 @@ namespace eval ttk::theme::tilegtk {
     ## In order to force a style update, we need to create an rc file, and force
     ## GTK to load it...
     ##
-    set rc [file normalize $System(TEMP)/gtkrc.tilegtk-[pid]]
+    set rc [file normalize $System(TEMP)/gtkrc.gtkTtk-[pid]]
     set fd [open $rc w]
     puts $fd {# -- THEME AUTO-WRITTEN DO NOT EDIT}
     puts $fd "include \"$StyleToRc($style)\""
@@ -526,7 +526,7 @@ namespace eval ttk::theme::tilegtk {
   };# applyStyle
 
   ## kdePaletteChangeNotification:
-  #  This procedure will be called from tilegtk core each time a message is
+  #  This procedure will be called from gtkTtk core each time a message is
   #  received from KDE to change the palette used.
   proc kdePaletteChangeNotification {} {
     return
@@ -542,7 +542,7 @@ namespace eval ttk::theme::tilegtk {
   };# kdeGetColourHex
 
   ## createThemeConfigurationPanel:
-  #  This method will create a configuration panel for the tilegtk theme in the
+  #  This method will create a configuration panel for the gtkTtk theme in the
   #  provided frame widget.
   proc createThemeConfigurationPanel {dlgFrame} {
     ## The first element in our panel, is a combobox, with all the available
@@ -551,11 +551,11 @@ namespace eval ttk::theme::tilegtk {
       ttk::combobox $dlgFrame.style_selection.style -state readonly
       $dlgFrame.style_selection.style set [currentThemeName]
       bind $dlgFrame.style_selection.style <<ThemeChanged>> \
-        {%W set [ttk::theme::tilegtk::currentThemeName]}
+        {%W set [ttk::theme::gtkTtk::currentThemeName]}
       bind $dlgFrame.style_selection.style <Enter> \
-        {%W configure -values [ttk::theme::tilegtk::availableStyles]}
+        {%W configure -values [ttk::theme::gtkTtk::availableStyles]}
       ttk::button $dlgFrame.style_selection.apply -text Apply -command \
-       "ttk::theme::tilegtk::applyStyle \[$dlgFrame.style_selection.style get\]"
+       "ttk::theme::gtkTtk::applyStyle \[$dlgFrame.style_selection.style get\]"
       grid $dlgFrame.style_selection.style $dlgFrame.style_selection.apply \
         -padx 2 -sticky snew
       grid columnconfigure $dlgFrame.style_selection 0 -weight 1
@@ -572,7 +572,7 @@ namespace eval ttk::theme::tilegtk {
                  -text {Preview Unavailable!}] -fill both -expand 1
       } else {
         frame $dlgFrame.preview.container -container 1 -height 250 -width 400
-        ## Create a slave interpreter, and load tilegtk. Widgets in this interp
+        ## Create a slave interpreter, and load gtkTtk. Widgets in this interp
         ## may be of a different widget style!
         set PreviewInterp [interp create]
         interp eval $PreviewInterp {package require Tk}
@@ -582,17 +582,17 @@ namespace eval ttk::theme::tilegtk {
           if {[catch {package require Ttk}]} {
             package require tile
           }
-          ttk::setTheme tilegtk
-          # package require ttk::theme::tilegtk
-          ttk::theme::tilegtk::applyStyle \{[currentThemeName]\}
+          ttk::setTheme gtkTtk
+          # package require ttk::theme::gtkTtk
+          ttk::theme::gtkTtk::applyStyle \{[currentThemeName]\}
           toplevel .widgets -height 250 -width 400 \
                             -use [winfo id $dlgFrame.preview.container]
-          ttk::theme::tilegtk::selectStyleDlg_previewWidgets .widgets
+          ttk::theme::gtkTtk::selectStyleDlg_previewWidgets .widgets
         "
         bind $dlgFrame.preview.container <Destroy> \
-          "ttk::theme::tilegtk::destroyThemeConfigurationPanel"
+          "ttk::theme::gtkTtk::destroyThemeConfigurationPanel"
         bind $dlgFrame.style_selection.style <<ComboboxSelected>> \
-          {ttk::theme::tilegtk::updateThemeConfigurationPanel [%W get]}
+          {ttk::theme::gtkTtk::updateThemeConfigurationPanel [%W get]}
       }
       pack $dlgFrame.preview.container -padx 0 -pady 0 -fill both -expand 1
     pack $dlgFrame.preview -fill both -expand 1 -padx 2 -pady 2
@@ -606,7 +606,7 @@ namespace eval ttk::theme::tilegtk {
 
   proc updateThemeConfigurationPanel {style} {
     variable PreviewInterp
-    interp eval $PreviewInterp "ttk::theme::tilegtk::applyStyle \{$style\}"
+    interp eval $PreviewInterp "ttk::theme::gtkTtk::applyStyle \{$style\}"
   };# updateThemeConfigurationPanel
 
   proc selectStyleDlg_previewWidgets {{win {}}} {
@@ -626,15 +626,15 @@ namespace eval ttk::theme::tilegtk {
     ## Add a set of radiobuttons to the left...
     ttk::labelframe $tab1.panedwindow.buttons -text " Button Group "
       ttk::radiobutton $tab1.panedwindow.buttons.b1 -text "Radio button" \
-         -variable ttk::theme::tilegtk::temp(selectionVariable) -value 1
+         -variable ttk::theme::gtkTtk::temp(selectionVariable) -value 1
       ttk::radiobutton $tab1.panedwindow.buttons.b2 -text "Radio button" \
-         -variable ttk::theme::tilegtk::temp(selectionVariable) -value 2
+         -variable ttk::theme::gtkTtk::temp(selectionVariable) -value 2
       ttk::radiobutton $tab1.panedwindow.buttons.b3 -text "Radio button" \
-         -variable ttk::theme::tilegtk::temp(selectionVariable) -value 3
+         -variable ttk::theme::gtkTtk::temp(selectionVariable) -value 3
       ttk::separator $tab1.panedwindow.buttons.sep -orient horizontal
       ttk::checkbutton $tab1.panedwindow.buttons.b4 -text "Checkbox"
       $tab1.panedwindow.buttons.b4 state selected
-      set ttk::theme::tilegtk::temp(selectionVariable) 1
+      set ttk::theme::gtkTtk::temp(selectionVariable) 1
       grid $tab1.panedwindow.buttons.b1 -sticky snew -padx 2 -pady 2
       grid $tab1.panedwindow.buttons.b2 -sticky snew -padx 2 -pady 2
       grid $tab1.panedwindow.buttons.b3 -sticky snew -padx 2 -pady 2
@@ -645,15 +645,15 @@ namespace eval ttk::theme::tilegtk {
     ## Add a set of other widgets (like progress, combo, scale, etc).
     ttk::frame $tab1.panedwindow.widgets
       ttk::progressbar $tab1.panedwindow.widgets.progress -orient horizontal \
-        -maximum 100 -variable ttk::theme::tilegtk::temp(progress)
+        -maximum 100 -variable ttk::theme::gtkTtk::temp(progress)
       grid $tab1.panedwindow.widgets.progress -sticky snew -padx 2 -pady 2
       ttk::scale $tab1.panedwindow.widgets.scale -orient horizontal -from 0 \
-        -to 100 -variable ttk::theme::tilegtk::temp(progress)
-      set ttk::theme::tilegtk::temp(progress) 70
+        -to 100 -variable ttk::theme::gtkTtk::temp(progress)
+      set ttk::theme::gtkTtk::temp(progress) 70
       grid $tab1.panedwindow.widgets.scale -sticky snew -padx 2 -pady 2
       ttk::entry $tab1.panedwindow.widgets.entry -textvariable \
-        ttk::theme::tilegtk::temp(entry)
-      set ttk::theme::tilegtk::temp(entry) {Entry Widget}
+        ttk::theme::gtkTtk::temp(entry)
+      set ttk::theme::gtkTtk::temp(entry) {Entry Widget}
       grid $tab1.panedwindow.widgets.entry -sticky snew -padx 2 -pady 2
       ttk::button $tab1.panedwindow.widgets.button -text Button
       grid $tab1.panedwindow.widgets.button -sticky snew -padx 2 -pady 2

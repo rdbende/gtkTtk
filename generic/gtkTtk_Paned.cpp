@@ -1,8 +1,8 @@
 /*
- *  tileGtk_Paned.cpp
+ *  gtkTtk_Paned.cpp
  * ---------------------
  *
- * This file is part of the Tile-Gtk package, a Tk/Tile based theme that uses
+ * This file is part of the gtkTtk package, a Tk/Tile based theme that uses
  * Gtk/GNOME for drawing.
  *
  * Copyright (C) 2004-2008 by:
@@ -13,9 +13,9 @@
  * Aghia Paraskevi, 153 10, Athens, Greece.
  */
 
-#include "tileGtk_Utilities.h"
-#include "tileGtk_TkHeaders.h"
-#include "tileGtk_WidgetDefaults.h"
+#include "gtkTtk_Utilities.h"
+#include "gtkTtk_TkHeaders.h"
+#include "gtkTtk_WidgetDefaults.h"
 
 #if 0
 /*
@@ -37,12 +37,12 @@ static void PanedSashGripElementGeometry(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     int *widthPtr, int *heightPtr, Ttk_Padding *paddingPtr)
 {
-    TILEGTK_WIDGET_CACHE_DEFINITION;
-    GtkWidget *widget = TileGtk_GetPaned(wc);
+    GTKTTK_WIDGET_CACHE_DEFINITION;
+    GtkWidget *widget = GtkTtk_GetPaned(wc);
     gint size = 5;
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
-    TILEGTK_ENSURE_WIDGET_OK;
-    TileGtk_gtk_widget_style_get(widget, "handle-size", &size, NULL);
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    GTKTTK_ENSURE_WIDGET_OK;
+    GtkTtk_gtk_widget_style_get(widget, "handle-size", &size, NULL);
     if (wc->orientation == TTK_ORIENT_HORIZONTAL) {
       *widthPtr  = size;
     } else {
@@ -55,22 +55,22 @@ static void PanedSashGripElementDraw(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     Drawable d, Ttk_Box b, unsigned state)
 {
-    TILEGTK_GTK_DRAWABLE_DEFINITIONS;
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
-    /* TILEGTK_SETUP_GTK_DRAWABLE; */
-    GtkWidget *widget = TileGtk_GetPaned(wc);
-    TILEGTK_ENSURE_WIDGET_OK;
-    TILEGTK_STYLE_FROM_WIDGET;
-    TILEGTK_DRAWABLE_FROM_WIDGET;
-    TileGtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
-            TILEGTK_SECTION_SASH|TILEGTK_SECTION_ALL);
-    TILEGTK_DEFAULT_BACKGROUND;
-    TileGtk_gtk_paint_handle(style, gdkDrawable, gtkState, GTK_SHADOW_NONE,
+    GTKTTK_GTK_DRAWABLE_DEFINITIONS;
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    /* GTKTTK_SETUP_GTK_DRAWABLE; */
+    GtkWidget *widget = GtkTtk_GetPaned(wc);
+    GTKTTK_ENSURE_WIDGET_OK;
+    GTKTTK_STYLE_FROM_WIDGET;
+    GTKTTK_DRAWABLE_FROM_WIDGET;
+    GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
+            GTKTTK_SECTION_SASH|GTKTTK_SECTION_ALL);
+    GTKTTK_DEFAULT_BACKGROUND;
+    GtkTtk_gtk_paint_handle(style, gdkDrawable, gtkState, GTK_SHADOW_NONE,
             NULL, widget, "paned", 0, 0, b.width, b.height,
             wc->gtkOrientation);
-    TileGtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
+    GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
                    0, 0, b.width, b.height, b.x, b.y);
-    TILEGTK_CLEANUP_GTK_DRAWABLE;
+    GTKTTK_CLEANUP_GTK_DRAWABLE;
 }; /* PanedSashGripElementDraw */
 
 static Ttk_ElementSpec PanedSashGripElementSpec = {
@@ -95,8 +95,8 @@ TTK_BEGIN_LAYOUT(VerticalSashLayout)
         TTK_NODE("Sash.vgrip", TTK_FILL_BOTH))
 TTK_END_LAYOUT
 
-int TileGtk_Init_Paned(Tcl_Interp *interp,
-                       TileGtk_WidgetCache **wc, Ttk_Theme themePtr)
+int GtkTtk_Init_Paned(Tcl_Interp *interp,
+                       GtkTtk_WidgetCache **wc, Ttk_Theme themePtr)
 {
     /*
      * Register elements:
@@ -113,4 +113,4 @@ int TileGtk_Init_Paned(Tcl_Interp *interp,
     Ttk_RegisterLayout(themePtr, "Vertical.Sash", VerticalSashLayout);
 
     return TCL_OK;
-}; /* TileGtk_Init_Paned */
+}; /* GtkTtk_Init_Paned */

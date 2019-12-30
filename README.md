@@ -1,13 +1,14 @@
-tile-gtk
+gtkTtk
 ========
 
-This is my fork of tile-gtk, a [ttk](http://wiki.tcl.tk/14796) theme that
-gives your [Tk](http://wiki.tcl.tk/477) application native
-[GTK+](http://www.gtk.org/) look and feel.
+gtkTtk is a [ttk](http://wiki.tcl.tk/14796) theme that gives to your [Tk](http://wiki.tcl.tk/477) applications a native [GTK+](http://www.gtk.org/) look and feel.
+So applications made using TCL/Tk, Perl/TK or Python/Tkinter can now look as good as if they were written in C/GTK+ and integrate perfectly in Gnome or XFCE desktops.
 
+gitk, git gui will no more looks like comming from the 90's !
+
+gtkTtk is a fork of tile-gtk.
 Since [according to the author][1] tilegtk as well as tileqt is
-undermaintained, I created this fork on Github to integrate my bugfixes and
-possible improvements.
+undermaintained, I created this fork to integrate my improvements and bugfixesand finishing the work of having a complete GTK+ widgets on ttk.
 
 You may want to visit the [original project][2] site.
 

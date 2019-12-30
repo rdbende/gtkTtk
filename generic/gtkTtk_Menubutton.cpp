@@ -1,8 +1,8 @@
 /*
- *  tileGtk_Menubutton.cpp
+ *  gtkTtk_Menubutton.cpp
  * -------------------
  *
- * This file is part of the Tile-Gtk package, a Tk/Tile based theme that uses
+ * This file is part of the gtkTtk package, a Tk/Tile based theme that uses
  * Gtk/GNOME for drawing.
  *
  * Copyright (C) 2004-2008 by:
@@ -13,9 +13,9 @@
  * Aghia Paraskevi, 153 10, Athens, Greece.
  */
 
-#include "tileGtk_Utilities.h"
-#include "tileGtk_TkHeaders.h"
-#include "tileGtk_WidgetDefaults.h"
+#include "gtkTtk_Utilities.h"
+#include "gtkTtk_TkHeaders.h"
+#include "gtkTtk_WidgetDefaults.h"
 
 #if 0
 /*
@@ -37,11 +37,11 @@ static void MenubuttonIndicatorElementGeometry(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     int *widthPtr, int *heightPtr, Ttk_Padding *paddingPtr)
 {
-    TILEGTK_WIDGET_CACHE_DEFINITION;
+    GTKTTK_WIDGET_CACHE_DEFINITION;
     gint size = 15;
-    GtkWidget *widget = TileGtk_GetComboboxEntry(wc);
-    TILEGTK_ENSURE_WIDGET_OK;
-    TileGtk_gtk_widget_style_get(widget, "arrow-size", &size, NULL);
+    GtkWidget *widget = GtkTtk_GetComboboxEntry(wc);
+    GTKTTK_ENSURE_WIDGET_OK;
+    GtkTtk_gtk_widget_style_get(widget, "arrow-size", &size, NULL);
 
     *widthPtr = *heightPtr = size;
     *paddingPtr = Ttk_UniformPadding(3);
@@ -51,38 +51,38 @@ static void MenubuttonIndicatorElementDraw(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     Drawable d, Ttk_Box b, unsigned state)
 {
-    TILEGTK_GTK_DRAWABLE_DEFINITIONS;
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
-    /* TILEGTK_SETUP_GTK_DRAWABLE; */
-    GtkWidget *widget = TileGtk_GetCombobox(wc);
-    GtkWidget *arrow_widget = TileGtk_GetArrow(wc);
+    GTKTTK_GTK_DRAWABLE_DEFINITIONS;
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    /* GTKTTK_SETUP_GTK_DRAWABLE; */
+    GtkWidget *widget = GtkTtk_GetCombobox(wc);
+    GtkWidget *arrow_widget = GtkTtk_GetArrow(wc);
     gfloat arrow_scaling;
     gint arrow_x;
     gint arrow_y;
     gint arrow_width;
     gint arrow_height;
-    TILEGTK_ENSURE_WIDGET_OK;
-    TILEGTK_STYLE_FROM_WIDGET;
-    TILEGTK_DRAWABLE_FROM_WIDGET;
-    TileGtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
-            TILEGTK_SECTION_BUTTONS|TILEGTK_SECTION_ALL);
-    TILEGTK_WIDGET_SET_FOCUS(widget);
-    TileGtk_gtk_paint_flat_box(style, gdkDrawable, gtkState, gtkShadow, NULL, widget,
+    GTKTTK_ENSURE_WIDGET_OK;
+    GTKTTK_STYLE_FROM_WIDGET;
+    GTKTTK_DRAWABLE_FROM_WIDGET;
+    GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
+            GTKTTK_SECTION_BUTTONS|GTKTTK_SECTION_ALL);
+    GTKTTK_WIDGET_SET_FOCUS(widget);
+    GtkTtk_gtk_paint_flat_box(style, gdkDrawable, gtkState, gtkShadow, NULL, widget,
             "button", 0, 0, b.width, b.height);
     /* Draw the arrow, according to the desired scaling! */
-    TileGtk_gtk_widget_style_get(arrow_widget, "arrow-scaling",
+    GtkTtk_gtk_widget_style_get(arrow_widget, "arrow-scaling",
                                  &arrow_scaling, NULL);
     if (arrow_scaling == 0.0) arrow_scaling = 1.0;
     arrow_width  = b.width  * arrow_scaling;
     arrow_height = b.height * arrow_scaling;
     arrow_x =  (b.width  - arrow_width) / 2;
     arrow_y =  (b.height - arrow_height) / 2;
-    TileGtk_gtk_paint_arrow(style, gdkDrawable, gtkState, gtkShadow, NULL,
+    GtkTtk_gtk_paint_arrow(style, gdkDrawable, gtkState, gtkShadow, NULL,
         arrow_widget, "combo", GTK_ARROW_DOWN, TRUE,
         arrow_x, arrow_y, arrow_width, arrow_height);
-    TileGtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
+    GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
                    0, 0, b.width, b.height, b.x, b.y);
-    TILEGTK_CLEANUP_GTK_DRAWABLE;
+    GTKTTK_CLEANUP_GTK_DRAWABLE;
 }
 
 static Ttk_ElementSpec MenubuttonIndicatorElementSpec = {
@@ -104,11 +104,11 @@ static void MenubuttonElementGeometry(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     int *widthPtr, int *heightPtr, Ttk_Padding *paddingPtr)
 {
-    TILEGTK_WIDGET_CACHE_DEFINITION;
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
-    GtkWidget *widget = TileGtk_GetCombobox(wc);
-    TILEGTK_ENSURE_WIDGET_OK;
-    TILEGTK_GET_WIDGET_SIZE(*widthPtr, *heightPtr);
+    GTKTTK_WIDGET_CACHE_DEFINITION;
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    GtkWidget *widget = GtkTtk_GetCombobox(wc);
+    GTKTTK_ENSURE_WIDGET_OK;
+    GTKTTK_GET_WIDGET_SIZE(*widthPtr, *heightPtr);
     *paddingPtr = Ttk_UniformPadding(PushButtonUniformPadding);
 }
 
@@ -116,23 +116,23 @@ static void MenubuttonElementDraw(
     void *clientData, void *elementRecord, Tk_Window tkwin,
     Drawable d, Ttk_Box b, unsigned state)
 {
-    TILEGTK_GTK_DRAWABLE_DEFINITIONS;
-    TILEGTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
-    /* TILEGTK_SETUP_GTK_DRAWABLE; */
-    GtkWidget *widget = TileGtk_GetCombobox(wc);
-    TILEGTK_ENSURE_WIDGET_OK;
-    TILEGTK_DRAWABLE_FROM_WIDGET;
-    TILEGTK_STYLE_BACKGROUND_DEFAULT;
-    TILEGTK_DEFAULT_BACKGROUND;
-    TILEGTK_STYLE_FROM_WIDGET;
-    TileGtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
-            TILEGTK_SECTION_BUTTONS|TILEGTK_SECTION_ALL);
-    TILEGTK_WIDGET_SET_FOCUS(widget);
-    TileGtk_gtk_paint_box(style, gdkDrawable, gtkState, gtkShadow, NULL, widget,
+    GTKTTK_GTK_DRAWABLE_DEFINITIONS;
+    GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
+    /* GTKTTK_SETUP_GTK_DRAWABLE; */
+    GtkWidget *widget = GtkTtk_GetCombobox(wc);
+    GTKTTK_ENSURE_WIDGET_OK;
+    GTKTTK_DRAWABLE_FROM_WIDGET;
+    GTKTTK_STYLE_BACKGROUND_DEFAULT;
+    GTKTTK_DEFAULT_BACKGROUND;
+    GTKTTK_STYLE_FROM_WIDGET;
+    GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
+            GTKTTK_SECTION_BUTTONS|GTKTTK_SECTION_ALL);
+    GTKTTK_WIDGET_SET_FOCUS(widget);
+    GtkTtk_gtk_paint_box(style, gdkDrawable, gtkState, gtkShadow, NULL, widget,
                   "button", 0, 0, b.width, b.height);
-    TileGtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
+    GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
                   0, 0, b.width, b.height, b.x, b.y);
-    TILEGTK_CLEANUP_GTK_DRAWABLE;
+    GTKTTK_CLEANUP_GTK_DRAWABLE;
 }
 
 static Ttk_ElementSpec MenubuttonElementSpec = {
@@ -155,8 +155,8 @@ TTK_BEGIN_LAYOUT(MenubuttonLayout)
 	        TTK_NODE("Menubutton.label", TTK_PACK_LEFT))))
 TTK_END_LAYOUT
 
-int TileGtk_Init_Menubutton(Tcl_Interp *interp,
-                       TileGtk_WidgetCache **wc, Ttk_Theme themePtr)
+int GtkTtk_Init_Menubutton(Tcl_Interp *interp,
+                       GtkTtk_WidgetCache **wc, Ttk_Theme themePtr)
 {
     /*
      * Register elements:
@@ -171,4 +171,4 @@ int TileGtk_Init_Menubutton(Tcl_Interp *interp,
      */
     Ttk_RegisterLayout(themePtr, "TMenubutton", MenubuttonLayout);
     return TCL_OK;
-}; /* TileGtk_Init_Menubutton */
+}; /* GtkTtk_Init_Menubutton */
