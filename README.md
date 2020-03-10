@@ -22,6 +22,8 @@ undermaintained, I created this fork to integrate my improvements and bugfixes a
 
 ## Selecting gtkTtk as default ttk theme
 
-
+The easiest way is to install [ttk-theme-chooser](https://github.com/Geballin/TTK-Theme-chooser)
+And select gtkTtk as your ttk theme :
+![screenshot](ttk-theme-chooser.png "ttk-theme-chooser")
 
 [1]: http://www.tclcommunityassociation.org/wub/proceedings/Proceedings-2010/GeorgePetasis/TileQtAndTileGTK.pdf
