@@ -2,7 +2,7 @@
  *  gtkTtk_Symbols.cpp
  * ------------------------
  *
- * This file is part of the gtkTtk package, a Tk/Tile based theme that uses
+ * This file is part of the GtkTtk package, a ttk based theme that uses
  * Gtk/GNOME for drawing.
  *
  * Copyright (C) 2004-2012 by:
