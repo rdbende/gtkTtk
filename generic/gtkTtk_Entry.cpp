@@ -70,9 +70,11 @@ static void EntryFieldElementDraw(
       GTKTTK_STYLE_FROM_WIDGET;
       GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
               GTKTTK_SECTION_ENTRY|GTKTTK_SECTION_ALL);
+      GtkTtk_gtk_paint_flat_box(style, gdkDrawable, gtkState, gtkShadow, NULL, widget,
+          "entry_bg", 0, 0, b.width, b.height);
       GTKTTK_WIDGET_SET_FOCUS(widget);
-      GtkTtk_gtk_paint_shadow(style, gdkDrawable, gtkState, gtkShadow, NULL,
-              widget, "entry", 0, 0, b.width, b.height);
+            GtkTtk_gtk_paint_shadow(style, gdkDrawable, gtkState, gtkShadow, NULL,
+                          widget, "entry", 0, 0, b.width, b.height);
     }
     // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
     GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
