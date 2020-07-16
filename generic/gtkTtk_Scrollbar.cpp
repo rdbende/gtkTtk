@@ -44,12 +44,12 @@ static void ScrollbarTroughElementGeometry(
     GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
     GTKTTK_ENSURE_WIDGET_OK;
     GtkTtk_gtk_widget_style_get(widget, "trough-border", &trough_border, NULL);
-    // xt = widget->style->xthickness;
-    // yt = widget->style->ythickness;
-    *paddingPtr = Ttk_MakePadding(xt + trough_border,
-                                  yt + trough_border,
-                                  xt + trough_border,
-                                  yt + trough_border);
+    xt = widget->style->xthickness;
+    yt = widget->style->ythickness;
+    *paddingPtr = Ttk_MakePadding(xt + trough_border - xt,
+                                  yt + trough_border - yt,
+                                  xt + trough_border + xt,
+                                  yt + trough_border + yt);
 }
 
 static void ScrollbarTroughElementDraw(
@@ -198,10 +198,10 @@ static void ScrollbarUpArrowElementGeometry(
     }
     xt = widget->style->xthickness;
     yt = widget->style->ythickness;
-    *paddingPtr = Ttk_MakePadding(xt + trough_border,
-                                  yt + trough_border,
-                                  xt + trough_border,
-                                  yt + trough_border);
+    *paddingPtr = Ttk_MakePadding(trough_border - xt,
+                                  trough_border - yt,
+                                  trough_border + xt,
+                                  trough_border + yt);
 }
 
 static void ScrollbarUpArrowElementDraw(
