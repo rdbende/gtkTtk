@@ -147,7 +147,7 @@ static void ScrollbarThumbElementDraw(
     GTKTTK_WIDGET_SET_FOCUS(widget);
     adj = GtkTtk_gtk_range_get_adjustment((GtkRange *) widget);
     GtkTtk_gtk_adjustment_set_value(adj,GtkTtk_ValueFromSlider(wc, tkwin, b));
-    //    GTKTTK_DEFAULT_BACKGROUND;
+    GTKTTK_DEFAULT_BACKGROUND;
       GtkTtk_gtk_paint_box(style, gdkDrawable, gtkState, GTK_SHADOW_IN, NULL, widget,
           "trough", 0, 0, b.width, b.height);
 
@@ -224,7 +224,7 @@ static void ScrollbarUpArrowElementDraw(
             GTKTTK_SECTION_STEPPERS|GTKTTK_SECTION_ALL);
     // GTKTTK_SETUP_WIDGET_SIZE(b.width, b.height);
     GTKTTK_WIDGET_SET_FOCUS(widget);
-    // GTKTTK_DEFAULT_BACKGROUND;
+    GTKTTK_DEFAULT_BACKGROUND;
     // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
     GtkTtk_gtk_paint_box(style, gdkDrawable, gtkState, GTK_SHADOW_IN, NULL,
         widget, horizontal ? "hscrollbar":"vscrollbar",
@@ -289,7 +289,7 @@ static void ScrollbarDownArrowElementDraw(
             GTKTTK_SECTION_STEPPERS|GTKTTK_SECTION_ALL);
     // GTKTTK_SETUP_WIDGET_SIZE(b.width, b.height);
     GTKTTK_WIDGET_SET_FOCUS(widget);
-    // GTKTTK_DEFAULT_BACKGROUND;
+    GTKTTK_DEFAULT_BACKGROUND;
     // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
     GtkTtk_gtk_paint_box(style, gdkDrawable, gtkState, GTK_SHADOW_IN, NULL,
         widget, horizontal ? "hscrollbar":"vscrollbar",
