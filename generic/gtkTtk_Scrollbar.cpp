@@ -46,10 +46,10 @@ static void ScrollbarTroughElementGeometry(
     GtkTtk_gtk_widget_style_get(widget, "trough-border", &trough_border, NULL);
     xt = widget->style->xthickness;
     yt = widget->style->ythickness;
-    *paddingPtr = Ttk_MakePadding(xt + trough_border - xt,
-                                  yt + trough_border - yt,
-                                  xt + trough_border + xt,
-                                  yt + trough_border + yt);
+    *paddingPtr = Ttk_MakePadding(xt + trough_border,
+                                  yt + trough_border,
+                                  xt + trough_border,
+                                  yt + trough_border);
 }
 
 static void ScrollbarTroughElementDraw(
