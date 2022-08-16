@@ -40,9 +40,9 @@ static void RadioButtonIndicatorElementGeometry(
            "indicator-spacing", &spacing,
            "focus-line-width",  &focus_width,
            "focus-padding",     &focus_pad, NULL);
-    *widthPtr = *heightPtr = size+spacing;
-    size = focus_pad + focus_width;
-    *paddingPtr = Ttk_MakePadding(spacing+size, size, spacing+size, size);
+    *widthPtr = *heightPtr = size+spacing*2+focus_width+focus_pad;
+    size = focus_width;
+    *paddingPtr = Ttk_MakePadding(*widthPtr, size, *widthPtr, size);
 }
 
 static void RadioButtonIndicatorElementDraw(
@@ -51,12 +51,15 @@ static void RadioButtonIndicatorElementDraw(
 {
     GTKTTK_GTK_DRAWABLE_DEFINITIONS;
     gint indicator_size, x, y;
+    const gint MAGIC_HEIGHT_WIDTH_COMPLEMENT = 40;
     GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
     GtkWidget *widget = GtkTtk_GetRadioButton(wc);
     GTKTTK_ENSURE_WIDGET_OK;
-    GTKTTK_DRAWABLE_FROM_WIDGET_SIZE(b.width+20, b.height+20);
+    GTKTTK_DRAWABLE_FROM_WIDGET_SIZE(b.width+MAGIC_HEIGHT_WIDTH_COMPLEMENT,
+				     b.height+MAGIC_HEIGHT_WIDTH_COMPLEMENT);
     GTKTTK_STYLE_BACKGROUND_DEFAULT;
-    GTKTTK_DEFAULT_BACKGROUND_SIZE(b.width+20, b.height+20);
+    GTKTTK_DEFAULT_BACKGROUND_SIZE(b.width+MAGIC_HEIGHT_WIDTH_COMPLEMENT
+				   , b.height+MAGIC_HEIGHT_WIDTH_COMPLEMENT);
     GTKTTK_STYLE_FROM_WIDGET;
     GTKTTK_WIDGET_SET_FOCUS(widget);
     GtkTtk_gtk_widget_style_get(widget,
@@ -65,15 +68,15 @@ static void RadioButtonIndicatorElementDraw(
             GTKTTK_SECTION_BUTTONS|GTKTTK_SECTION_ALL);
     if (state & TTK_STATE_FOCUS) {
       GtkTtk_gtk_paint_focus(style, gdkDrawable, gtkState, NULL, widget,
-              "radiobutton", 0, 0, b.width + 20, b.height + 20);
+              "radiobutton", 0, 0, b.width + indicator_size, b.height + indicator_size);
     }
-    // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
-    x = 10 + (b.width  - indicator_size) / 2;
-    y = 10 + (b.height - indicator_size) / 2;
+    GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
+    x = b.width  - indicator_size;
+    y = b.height - indicator_size / 2 -1;
     GtkTtk_gtk_paint_option(style, gdkDrawable, gtkState, gtkShadow, NULL,
             widget, "radiobutton", x, y, indicator_size, indicator_size);
     GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
-            10, 10, b.width, b.height, b.x, b.y);
+            10, 10, b.width + indicator_size, b.height + indicator_size, b.x, b.y);
     GTKTTK_CLEANUP_GTK_DRAWABLE;
 }
 
