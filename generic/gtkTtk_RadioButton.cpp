@@ -70,7 +70,7 @@ static void RadioButtonIndicatorElementDraw(
       GtkTtk_gtk_paint_focus(style, gdkDrawable, gtkState, NULL, widget,
               "radiobutton", 0, 0, b.width + indicator_size, b.height + indicator_size);
     }
-    GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
+    // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
     x = b.width  - indicator_size;
     y = b.height - indicator_size / 2 -1;
     GtkTtk_gtk_paint_option(style, gdkDrawable, gtkState, gtkShadow, NULL,

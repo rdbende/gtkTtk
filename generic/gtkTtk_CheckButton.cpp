@@ -46,8 +46,6 @@ static void CheckButtonIndicatorElementGeometry(
 				  size,
 				  *widthPtr,
 				  size);
-    printf("spacing=%d, size=%d, focus_width=%d, focus_pad=%d\n",
-    spacing, size, focus_width, focus_pad);
 }
 
 static void CheckButtonIndicatorElementDraw(
