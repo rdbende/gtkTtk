@@ -40,9 +40,14 @@ static void CheckButtonIndicatorElementGeometry(
            "indicator-spacing", &spacing,
            "focus-line-width",  &focus_width,
            "focus-padding",     &focus_pad, NULL);
-    *widthPtr = *heightPtr = size+spacing;
-    size = focus_pad + focus_width;
-    *paddingPtr = Ttk_MakePadding(spacing+size, size, spacing+size, size);
+    *widthPtr = *heightPtr = spacing*2+size+focus_width+focus_pad;
+    size = focus_width;
+    *paddingPtr = Ttk_MakePadding(*widthPtr,
+				  size,
+				  *widthPtr,
+				  size);
+    printf("spacing=%d, size=%d, focus_width=%d, focus_pad=%d\n",
+    spacing, size, focus_width, focus_pad);
 }
 
 static void CheckButtonIndicatorElementDraw(
