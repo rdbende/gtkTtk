@@ -41,9 +41,9 @@ static void RadioButtonIndicatorElementGeometry(
            "focus-line-width",  &focus_width,
            "focus-padding",     &focus_pad, NULL);
     *widthPtr = size+focus_width+focus_pad;
-    *heightPtr = size+spacing*2+focus_width+focus_pad;
+    *heightPtr = size+spacing*2+focus_pad;
     size = focus_width;
-    *paddingPtr = Ttk_MakePadding(*widthPtr, size, *widthPtr, size);
+    *paddingPtr = Ttk_MakePadding(*heightPtr, size, *widthPtr, size);
 }
 
 static void RadioButtonIndicatorElementDraw(
@@ -51,7 +51,7 @@ static void RadioButtonIndicatorElementDraw(
     Drawable d, Ttk_Box b, unsigned state)
 {
     GTKTTK_GTK_DRAWABLE_DEFINITIONS;
-    gint indicator_size, x, y;
+    gint indicator_size, x, y, focus_pad;
     const gint MAGIC_HEIGHT_WIDTH_COMPLEMENT = 40;
     GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
     GtkWidget *widget = GtkTtk_GetRadioButton(wc);
@@ -64,7 +64,8 @@ static void RadioButtonIndicatorElementDraw(
     GTKTTK_STYLE_FROM_WIDGET;
     GTKTTK_WIDGET_SET_FOCUS(widget);
     GtkTtk_gtk_widget_style_get(widget,
-           "indicator-size", &indicator_size, NULL);
+           "indicator-size", &indicator_size, 
+	   "focus-padding",     &focus_pad, NULL);
     GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
             GTKTTK_SECTION_BUTTONS|GTKTTK_SECTION_ALL);
     if (state & TTK_STATE_FOCUS) {
@@ -72,12 +73,12 @@ static void RadioButtonIndicatorElementDraw(
               "radiobutton", 0, 0, b.width + indicator_size, b.height + indicator_size);
     }
     // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
-    x = b.width  - indicator_size;
-    y = b.height - indicator_size / 2 -1;
+    x = b.width  - indicator_size / 2;
+    y = b.height - indicator_size / 2 -focus_pad;
     GtkTtk_gtk_paint_option(style, gdkDrawable, gtkState, gtkShadow, NULL,
             widget, "radiobutton", x, y, indicator_size, indicator_size);
     GtkTtk_CopyGtkPixmapOnToDrawable(gdkDrawable, d, tkwin,
-            10, 10, b.width + indicator_size, b.height + indicator_size, b.x, b.y);
+            b.width/2, b.height/2, b.width + indicator_size, b.height + indicator_size, b.x, b.y);
     GTKTTK_CLEANUP_GTK_DRAWABLE;
 }
 
