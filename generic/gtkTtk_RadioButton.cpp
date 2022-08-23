@@ -40,7 +40,8 @@ static void RadioButtonIndicatorElementGeometry(
            "indicator-spacing", &spacing,
            "focus-line-width",  &focus_width,
            "focus-padding",     &focus_pad, NULL);
-    *widthPtr = *heightPtr = size+spacing*2+focus_width+focus_pad;
+    *widthPtr = size+focus_width+focus_pad;
+    *heightPtr = size+spacing*2+focus_width+focus_pad;
     size = focus_width;
     *paddingPtr = Ttk_MakePadding(*widthPtr, size, *widthPtr, size);
 }
