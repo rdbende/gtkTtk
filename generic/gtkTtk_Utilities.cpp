@@ -451,7 +451,7 @@ unsigned int GtkTtk_StateShadowTableLookup(GtkTtk_StateTable *map,
       }
       map = NULL; /* Do not search the table */
     } else if (section & GTKTTK_SECTION_BUTTONS ||
-               section & GTKTTK_SECTION_ENTRY ||
+	       section & GTKTTK_SECTION_ENTRY ||
                section & GTKTTK_SECTION_SCROLLBAR) {
       /* Whether the button is drawn pressed or not, is defined by shadow. */
       if (state & TTK_STATE_PRESSED || state & TTK_STATE_SELECTED) {
@@ -464,7 +464,8 @@ unsigned int GtkTtk_StateShadowTableLookup(GtkTtk_StateTable *map,
         // else if (state & TTK_STATE_FOCUS)  gtkState  = GTK_STATE_ACTIVE;
       }
       if (section & GTKTTK_SECTION_ENTRY) {
-	if (state & TTK_STATE_FOCUS)  gtkState  = GTK_STATE_ACTIVE;
+	if (state & TTK_STATE_FOCUS)  gtkState  = GTK_STATE_NORMAL;
+	gtkShadow = GTK_SHADOW_IN;
       }
       if ((state & TTK_STATE_ACTIVE) &&
              (!(state & TTK_STATE_PRESSED) && !(state & TTK_STATE_SELECTED))) {
