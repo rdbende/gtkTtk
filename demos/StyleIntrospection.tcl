@@ -3,10 +3,8 @@
 ## This demo shows information about the Gtk/GNOME style currently in use.
 ##
 ###############################################################################
-if {[catch {package require Ttk}]} {
-  package require tile
-}
-ttk::setTheme tilegtk
+package require Tk
+ttk::setTheme gtkTtk
 
 set win {}
 label $win.lbl_option   -text Option:
@@ -23,7 +21,7 @@ foreach base {fg bg base text light mid dark text_aa} {
   label $win.$base -text "$base:" -anchor w
   grid  $win.$base -row $row -column $col
   foreach state {NORMAL PRELIGHT ACTIVE SELECTED INSENSITIVE} {
-    set colour [ttk::theme::tilegtk::currentThemeColour ${base}($state)]
+    set colour [ttk::theme::gtkTtk::currentThemeColour ${base}($state)]
     label $win.${base}_$state -background $colour \
       -relief raised -borderwidth 1
     label $win.${base}_${state}_value -text $colour

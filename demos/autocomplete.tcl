@@ -1,7 +1,7 @@
 #
 # $Id: autocomplete.tcl,v 1.1 2008/08/03 14:52:09 petasis Exp $
 #
-# Demonstration of inline auto-completion for Tile combobox widgets.
+# Demonstration of inline auto-completion for Ttk combobox widgets.
 #
 # Usage:
 #
@@ -16,7 +16,7 @@
 #	overhead.
 #
 
-namespace eval tile::combobox {
+namespace eval ttk::combobox {
 	namespace export enableAutocomplete
 }
 
@@ -24,7 +24,7 @@ namespace eval tile::combobox {
 #
 #	Enable inline auto-completion for the specified combobox widget.
 #
-proc tile::combobox::enableAutocomplete { w {presorted 1} } {
+proc ttk::combobox::enableAutocomplete { w {presorted 1} } {
 	bind $w <KeyPress> [namespace code [list DoAutoComplete %W %A $presorted]]
 }
 
@@ -32,9 +32,9 @@ proc tile::combobox::enableAutocomplete { w {presorted 1} } {
 #
 #	Perform inline auto-completion of typed text in the combobox.
 #
-proc tile::combobox::DoAutoComplete { w s presorted } {
+proc ttk::combobox::DoAutoComplete { w s presorted } {
     set old [$w get]
-    tile::entry::Insert $w $s
+    ttk::entry::Insert $w $s
     set new [$w get]
 
     # Only auto-complete if the string length has changed due to insertion.
