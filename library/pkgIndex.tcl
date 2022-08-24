@@ -1,2 +1,2 @@
-package ifneeded ttk::theme::gtkTtk 0.6 \
-  [list load [file join $dir libgtkTtk0.6[info sharedlibextension]] gtkTtk]
+package ifneeded ttk::theme::gtkTtk 0.8 \
+  [list load [file join $dir libgtkTtk0.8[info sharedlibextension]] gtkTtk]
