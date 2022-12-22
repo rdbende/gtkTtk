@@ -39,13 +39,12 @@ static void ScaleTroughElementGeometry(
 {
     GTKTTK_WIDGET_CACHE_DEFINITION;
     gint trough_border = 0;
-    int xt = 0, yt = 0;
     GtkWidget *widget = GtkTtk_GetScale(wc);
     GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
     GTKTTK_ENSURE_WIDGET_OK;
     GtkTtk_gtk_widget_style_get(widget, "trough-border", &trough_border, NULL);
-    // xt = widget->style->xthickness;
-    // yt = widget->style->ythickness;
+    int xt = widget->style->xthickness;
+    int yt = widget->style->ythickness;
     *paddingPtr = Ttk_MakePadding(xt + trough_border,
                                   yt + trough_border,
                                   xt + trough_border,
@@ -72,21 +71,8 @@ static void ScaleTroughElementDraw(
                                  &trough_side_details, NULL);
     // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
     if (trough_side_details) {
-      int trough_change_pos_x = b.width, trough_change_pos_y = b.height;
-      if (wc->gtkOrientation == GTK_ORIENTATION_HORIZONTAL)
-        trough_change_pos_x = b.width / 2;
-      else
-        trough_change_pos_y = b.height / 2;
       GtkTtk_gtk_paint_box(style, gdkDrawable, gtkState, GTK_SHADOW_IN, NULL,
-              widget, "trough-upper", 0, 0,
-              trough_change_pos_x, trough_change_pos_y);
-      if (wc->gtkOrientation == GTK_ORIENTATION_HORIZONTAL)
-        trough_change_pos_y = 0;
-      else
-        trough_change_pos_x = 0;
-      GtkTtk_gtk_paint_box(style, gdkDrawable, gtkState, GTK_SHADOW_IN, NULL,
-              widget, "trough-lower", trough_change_pos_x, trough_change_pos_y,
-              b.width-trough_change_pos_x, b.height-trough_change_pos_y);
+              widget, "trough-upper", 0, 0, b.width, b.height);
     } else {
       GtkTtk_gtk_paint_box(style, gdkDrawable, gtkState, GTK_SHADOW_IN, NULL,
               widget, "trough", 0, 0, b.width, b.height);
