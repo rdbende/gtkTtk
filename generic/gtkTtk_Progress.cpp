@@ -55,7 +55,7 @@ static void ProgressTroughElementDraw(
             GTKTTK_SECTION_TROUGH|GTKTTK_SECTION_ALL);
     // GTKTTK_SETUP_WIDGET_SIZE(b.width, b.height);
     GTKTTK_WIDGET_SET_FOCUS(widget);
-    // GTKTTK_DEFAULT_BACKGROUND;
+    GTKTTK_DEFAULT_BACKGROUND;
     // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
     GtkTtk_gtk_paint_box(style, gdkDrawable, gtkState, GTK_SHADOW_IN, NULL, widget,
         "trough", 0, 0, b.width, b.height);
@@ -118,6 +118,7 @@ static void ProgressBarElementDraw(
     GTKTTK_ENSURE_WIDGET_OK;
     GTKTTK_STYLE_FROM_WIDGET;
     GTKTTK_DRAWABLE_FROM_WIDGET;
+    GTKTTK_DEFAULT_BACKGROUND;
     // Tcl_GetDoubleFromObj(NULL, pbar->valueObj, &value);
     // Tcl_GetDoubleFromObj(NULL, pbar->maximumObj, &maximum);
     // if (strncmp(Tcl_GetString(pbar->modeObj), "determinate", 10) != 0) {
