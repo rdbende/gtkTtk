@@ -51,7 +51,7 @@ static void RadioButtonIndicatorElementDraw(
     Drawable d, Ttk_Box b, unsigned state)
 {
     GTKTTK_GTK_DRAWABLE_DEFINITIONS;
-    gint indicator_size, x, y, focus_pad;
+    gint indicator_size, x, y;
     const gint MAGIC_HEIGHT_WIDTH_COMPLEMENT = 40;
     GTKTTK_ENSURE_GTK_STYLE_ENGINE_ACTIVE;
     GtkWidget *widget = GtkTtk_GetRadioButton(wc);
