@@ -238,21 +238,39 @@ namespace eval ttk::theme::gtkTtk {
          -foreground       [currentThemeColour fg(NORMAL)] \
          -selectforeground [currentThemeColour fg(SELECTED)] \
          -selectbackground [currentThemeColour bg(SELECTED)] \
-         ;
-      # ttk::style map . -foreground [list \
-      #    active          [currentThemeColour fg(ACTIVE)]      \
-      #    disabled        [currentThemeColour fg(INSENSITIVE)] \
-      #    focus           [currentThemeColour fg(PRELIGHT)]    \
-      #    pressed         [currentThemeColour fg(ACTIVE)]      \
-      #    selected        [currentThemeColour fg(SELECTED)]    \
-      # ] -background [list \
-      #    active          [currentThemeColour bg(ACTIVE)]      \
-      #    disabled        [currentThemeColour bg(INSENSITIVE)] \
-      #    pressed         [currentThemeColour bg(PRELIGHT)]    \
-      #    pressed         [currentThemeColour bg(ACTIVE)]      \
-      #    selected        [currentThemeColour bg(SELECTED)]    \
-      # ]
+	  ;
 
+       # Configuration of the ttk::Treeview
+       ttk::style map Treeview -foreground [list \
+          active          [currentThemeColour fg(ACTIVE)]      \
+          disabled        [currentThemeColour fg(INSENSITIVE)] \
+          focus           [currentThemeColour fg(PRELIGHT)]    \
+          pressed         [currentThemeColour fg(ACTIVE)]      \
+          selected        [currentThemeColour fg(SELECTED)]    \
+       ] -background [list \
+          active          [currentThemeColour bg(ACTIVE)]      \
+          disabled        [currentThemeColour bg(INSENSITIVE)] \
+          pressed         [currentThemeColour bg(ACTIVE)]      \
+          selected        [currentThemeColour bg(SELECTED)]    \
+			 ]
+
+       ttk::style map  Treeview.Heading -foreground [list \
+          active          [currentThemeColour bg(ACTIVE)]      \
+          disabled        [currentThemeColour bg(INSENSITIVE)] \
+          focus           [currentThemeColour bg(PRELIGHT)]    \
+          pressed         [currentThemeColour bg(PRELIGHT)]      \
+          selected        [currentThemeColour bg(SELECTED)]    \
+       ] -background [list \
+          active          [currentThemeColour fg(ACTIVE)]      \
+          disabled        [currentThemeColour fg(INSENSITIVE)] \
+          focus           [currentThemeColour bg(PRELIGHT)]    \
+          pressed         [currentThemeColour fg(PRELIGHT)]    \
+          selected        [currentThemeColour fg(SELECTED)]    \
+			 ]
+	ttk::style configure Treeview.Heading -relief ridge \
+		  -background [currentThemeColour bg(ACTIVE)]
+	ttk::style configure Treeview.Item -indicatormargins {1 2 1 1} -indicatorsize 5
+	
       # ttk::style map TButton -foreground [list \
       # ] -background [list \
       # ]
@@ -347,38 +365,8 @@ namespace eval ttk::theme::gtkTtk {
     #             PM_DefaultFrameWidth} {
     #   puts "$pm: [getPixelMetric -$pm]"
     # }
-  };# updateStyles
-
-  proc kdeLocate_kdeglobals {} {
-    return
-    set KDE_dirs {}
-    # As a first step, examine the KDE env variables...
-    global env
-    foreach {var cmd} {KDEHOME {kde-config --localprefix} 
-                 KDEDIRS {}
-                 KDEDIR  {kde-config --prefix}} {
-      if {[info exists env($var)]} {
-        set paths [set env($var)]
-        if {[string length $paths]} {
-          foreach path [split $paths :] {lappend KDE_dirs $path}
-        }
-      }
-      if {[string length $cmd]} {
-        if {![catch {eval exec $cmd} dir]} {
-          lappend KDE_dirs $dir
-        }
-      }
-    }
-    # Now, examine all the paths found to locate the kdeglobals file.
-    set PATHS {}
-    foreach path $KDE_dirs {
-      if {[file exists $path/share/config/kdeglobals]} {
-        lappend PATHS $path/share/config/kdeglobals
-      }
-    }
-    return $PATHS
-  };# kdeLocate_kdeglobals
-
+};# updateStyles
+    
   ## updateColourPalette:
   #  This procedure will be called from gtkTtk core each time a message is
   #  received from KDE to change the palette used.
@@ -695,7 +683,7 @@ namespace eval ttk::theme::gtkTtk {
   if {0 && ![info exists ::testConfigurationPanel]} {
     toplevel .themeConfPanel
     wm withdraw .themeConfPanel
-    wm title .themeConfPanel "TileGTK Configuration Panel..."
+    wm title .themeConfPanel "GtkTtk Configuration Panel..."
     frame .themeConfPanel.page
     createThemeConfigurationPanel .themeConfPanel.page
     update
