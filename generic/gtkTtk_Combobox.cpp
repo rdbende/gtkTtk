@@ -70,6 +70,7 @@ static void ComboboxFieldElementDraw(
       GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
               GTKTTK_SECTION_ENTRY|GTKTTK_SECTION_ALL);
       GTKTTK_WIDGET_SET_FOCUS(widget);
+      // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
       GtkTtk_gtk_paint_shadow(style, gdkDrawable, gtkState, gtkShadow, NULL,
               widget, "combobox", 0, 0, b.width, b.height);
     }
@@ -127,6 +128,7 @@ static void ComboboxArrowElementDraw(
       GTKTTK_ENSURE_WIDGET_OK;
       GTKTTK_STYLE_FROM_WIDGET;
       GTKTTK_DRAWABLE_FROM_WIDGET;
+      // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
       GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
               GTKTTK_SECTION_BUTTONS|GTKTTK_SECTION_ALL);
       GTKTTK_WIDGET_SET_FOCUS(widget);
@@ -140,6 +142,7 @@ static void ComboboxArrowElementDraw(
       GtkTtk_StateShadowTableLookup(NULL, state, gtkState, gtkShadow,
               GTKTTK_SECTION_ENTRY|GTKTTK_SECTION_ALL);
       GTKTTK_WIDGET_SET_FOCUS(widget);
+      // GtkTtk_StateInfo(state, gtkState, gtkShadow, tkwin, widget);
       GtkTtk_gtk_paint_flat_box(style, gdkDrawable, gtkState, gtkShadow, NULL,
               widget, "combobox", 0, 0, b.width, b.height);
     }
