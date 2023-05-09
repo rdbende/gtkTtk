@@ -529,6 +529,10 @@ proc tree.pane {w} {
     $w.t heading Class -text "Class"
     bind $w.t <<TreeviewOpen>> [list fillTree $w.t]
 
+    lmap child {un deux trois quatre} {
+	$w.t insert {} end -text $child
+    }
+
     return $w
 }
 
@@ -544,7 +548,7 @@ proc fillTree {tv} {
     #
     # Replace tree item children with current list of child windows.
     #
-    $tv delete [$tv children $id]
+#    $tv delete [$tv children $id]
     set children [winfo children $id]
     foreach child $children {
 	$tv insert $id end -id $child -text [winfo name $child] -open 0 \
