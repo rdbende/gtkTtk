@@ -270,6 +270,7 @@ namespace eval ttk::theme::gtkTtk {
 	ttk::style configure Treeview.Heading -relief ridge \
 		  -background [currentThemeColour bg(ACTIVE)]
 	ttk::style configure Treeview.Item -indicatormargins {1 2 1 1} -indicatorsize 5
+	ttk::style configure Treeview -fieldbackground [currentThemeColour bg(INSENSITIVE)]
 	
       # ttk::style map TButton -foreground [list \
       # ] -background [list \
