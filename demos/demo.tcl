@@ -517,7 +517,7 @@ proc tree.pane {w} {
     grid $w.t $w.vsb -sticky nwse
     grid columnconfigure $w 0 -weight 1
     grid rowconfigure $w 0 -weight 1
-    grid propagate $w 0
+    grid propagate $w 1
 
     #
     # Add initial tree node: 
