@@ -255,23 +255,27 @@ namespace eval ttk::theme::gtkTtk {
 			 ]
 
        ttk::style map  Treeview.Heading -foreground [list \
-          active          [currentThemeColour bg(ACTIVE)]      \
-          disabled        [currentThemeColour bg(INSENSITIVE)] \
-          focus           [currentThemeColour bg(PRELIGHT)]    \
           pressed         [currentThemeColour bg(PRELIGHT)]      \
-          selected        [currentThemeColour bg(SELECTED)]    \
        ] -background [list \
-          active          [currentThemeColour fg(ACTIVE)]      \
-          disabled        [currentThemeColour fg(INSENSITIVE)] \
-          focus           [currentThemeColour bg(PRELIGHT)]    \
           pressed         [currentThemeColour fg(PRELIGHT)]    \
-          selected        [currentThemeColour fg(SELECTED)]    \
 			 ]
-	ttk::style configure Treeview.Heading -relief ridge \
-		  -background [currentThemeColour bg(ACTIVE)]
-	ttk::style configure Treeview.Item -indicatormargins {1 2 1 1} -indicatorsize 5
-	ttk::style configure Treeview -fieldbackground [currentThemeColour bg(INSENSITIVE)]
-	
+      ttk::style configure Treeview.Heading -relief raised \
+      	  -background [currentThemeColour bg(ACTIVE)]
+      ttk::style configure Treeview.Item -indicatormargins {1 2 1 1} -indicatorsize 5
+      ttk::style configure Treeview -fieldbackground [currentThemeColour bg(INSENSITIVE)]
+      
+      set base_bg				[ttk::style lookup . -background]
+      set base_fg				[ttk::style lookup . -foreground]
+      set text_fg				[ttk::style lookup Treeview -foreground]
+      set select_bg			[ttk::style lookup Default -selectbackground]
+      set select_fg			[ttk::style lookup Default -selectforeground]
+      
+      option add *Menu.Background $base_bg
+      option add *Menu.Foreground $base_fg
+      option add *Menu.activeBackground $select_bg
+      option add *Menu.activeForeground $select_fg
+      option add *Menu.selectColor $text_fg
+
       # ttk::style map TButton -foreground [list \
       # ] -background [list \
       # ]
